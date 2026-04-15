@@ -53,7 +53,7 @@ services:
       - client-ui-ssr
       - server
     ports:
-      - '8080:80'
+      - '8081:80'
 
 volumes:
   postgres_data:
