@@ -1,0 +1,168 @@
+.header-meta {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  min-width: 0;
+}
+
+.header-rules {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  min-width: 0;
+}
+
+.header-rules-label {
+  color: var(--muted);
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  padding-top: 4px;
+  flex: 0 0 auto;
+}
+
+.header-controls {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 8px;
+  min-width: 0;
+}
+
+.header-controls-top {
+  display: flex;
+  flex-wrap: nowrap;
+  justify-content: flex-end;
+  align-items: center;
+  gap: 8px;
+  width: 100%;
+  order: 1;
+}
+
+.header-device-switch-btn,
+.header-home-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  height: 64px;
+  text-align: center;
+  line-height: 1.2;
+  white-space: normal;
+}
+
+.header-status-row {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  gap: 8px;
+  width: 100%;
+  order: 2;
+}
+
+.header-spectators-panel {
+  width: 100%;
+  box-sizing: border-box;
+  order: 3;
+}
+
+.header-rules-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  min-width: 0;
+}
+
+.header-rule-chip {
+  display: inline-grid;
+  grid-template-columns: auto 1fr;
+  gap: 6px;
+  align-items: baseline;
+  min-height: 28px;
+  padding: 5px 11px;
+  border: 1px solid rgb(148 163 184 / 0.24);
+  border-radius: 999px;
+  background: rgb(15 23 42 / 0.5);
+  color: var(--text);
+  font-size: 12px;
+  line-height: 1.25;
+  white-space: normal;
+}
+
+.header-rule-chip-label {
+  color: rgb(148 163 184);
+  font-weight: 600;
+}
+
+.header-rule-chip-value {
+  font-weight: 700;
+}
+
+@media (max-width: 900px) {
+  .spread {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .header-rules {
+    flex-direction: column;
+    gap: 6px;
+  }
+
+  .header-rules-label {
+    padding-top: 0;
+    text-align: center;
+  }
+
+  .header-rules-list {
+    width: 100%;
+    flex-direction: column;
+  }
+
+  .header-rule-chip {
+    width: 100%;
+    box-sizing: border-box;
+  }
+
+  .header-rule-chip {
+    grid-template-columns: auto auto;
+    justify-content: center;
+    text-align: center;
+  }
+
+  .header-controls {
+    width: 100%;
+    align-items: stretch;
+    border-top: 1px solid rgb(148 163 184 / 0.24);
+    margin-top: 8px;
+    padding-top: 16px;
+  }
+
+  .header-status-row {
+    order: 1;
+    justify-content: flex-start;
+  }
+
+  .header-spectators-panel {
+    order: 2;
+  }
+
+  .header-controls-top {
+    order: 3;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 8px;
+  }
+
+  .header-device-switch-btn,
+  .header-home-btn {
+    order: 1;
+    width: 100%;
+    text-align: center;
+  }
+
+  .header-panel-settings {
+    order: 2;
+    width: 100%;
+  }
+}

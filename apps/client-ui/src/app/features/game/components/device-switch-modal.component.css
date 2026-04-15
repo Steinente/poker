@@ -1,0 +1,83 @@
+.device-switch-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 80;
+  display: grid;
+  place-items: center;
+  background: rgb(2 6 23 / 0.68);
+  padding: 20px;
+}
+
+.device-switch-dialog {
+  width: min(540px, 100%);
+  display: grid;
+  gap: 12px;
+}
+
+.device-switch-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.device-switch-header h3 {
+  margin: 0;
+}
+
+.device-switch-qr-wrap {
+  display: grid;
+  place-items: center;
+  gap: 8px;
+  min-height: 280px;
+}
+
+.device-switch-qr {
+  width: min(256px, 70vw);
+  height: min(256px, 70vw);
+  border-radius: 8px;
+  border: 1px solid rgb(148 163 184 / 0.32);
+  background: #fff;
+  padding: 8px;
+}
+
+.device-switch-qr-hidden {
+  display: none;
+}
+
+.device-switch-qr-loader {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.device-switch-qr-spinner {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  border: 2px solid rgb(148 163 184 / 0.45);
+  border-top-color: rgb(59 130 246);
+  animation: device-switch-spin 0.8s linear infinite;
+}
+
+@keyframes device-switch-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.device-switch-link-row {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 8px;
+}
+
+.device-switch-footer {
+  text-align: right;
+}
+
+@media (max-width: 720px) {
+  .device-switch-link-row {
+    grid-template-columns: 1fr;
+  }
+}

@@ -1,0 +1,46 @@
+{
+  "name": "poker-monorepo",
+  "private": true,
+  "version": "1.0.0",
+  "packageManager": "pnpm@10.0.0",
+  "scripts": {
+    "build": "pnpm -r build",
+    "build:client-ui": "ng build client-ui",
+    "build:server": "pnpm --filter @poker/server build",
+    "dev": "pnpm --parallel --filter @poker/server --filter @poker/client-ui dev",
+    "dev:client-ui": "ng serve client-ui --port 4200",
+    "dev:server": "pnpm --filter @poker/server dev",
+    "lint": "pnpm -r lint",
+    "test": "pnpm -r test",
+    "format": "pnpm -r format",
+    "serve:ssr:client-ui": "node dist/client-ui/server/server.mjs"
+  },
+  "dependencies": {
+    "@angular/common": "^21.0.0",
+    "@angular/compiler": "^21.0.0",
+    "@angular/core": "^21.0.0",
+    "@angular/forms": "^21.0.0",
+    "@angular/platform-browser": "^21.0.0",
+    "@angular/platform-server": "^21.0.0",
+    "@angular/router": "^21.0.0",
+    "@angular/service-worker": "^21.2.4",
+    "@angular/ssr": "^21.2.2",
+    "express": "^5.1.0",
+    "rxjs": "^7.8.2",
+    "tslib": "^2.8.1",
+    "zone.js": "^0.16.0"
+  },
+  "devDependencies": {
+    "@angular/build": "^21.0.0",
+    "@angular/cli": "^21.0.0",
+    "@angular/compiler-cli": "^21.0.0",
+    "@types/express": "^5.0.1",
+    "@types/node": "^20.17.19",
+    "typescript": "^5.9.2"
+  },
+  "pnpm": {
+    "overrides": {
+      "@types/pg": "8.11.11"
+    }
+  }
+}

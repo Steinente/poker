@@ -1,0 +1,193 @@
+<div class="page-shell">
+  @if (!gameState()) {
+    <div class="panel">{{ 'waitingForPlayers' | t }}</div>
+  } @else if (gameState(); as state) {
+    <div class="game-top">
+      <poker-game-header
+        [state]="state"
+        [settingsVisible]="panelSettingsVisibleSignal()"
+        [playersVisible]="panelPlayersVisibleSignal()"
+        [logVisible]="panelLogVisibleSignal()"
+        [chatVisible]="panelChatVisibleSignal()"
+        (panelSettingsChange)="setPanelSettingsVisibleFn($event)"
+        (panelPlayersChange)="setPanelPlayersVisibleFn($event)"
+        (panelLogChange)="setPanelLogVisibleFn($event)"
+        (panelChatChange)="setPanelChatVisibleFn($event)"
+        (homeButtonUserGesture)="onHomeButtonUserGesture()"
+        (deviceSwitchRequested)="openDeviceSwitchFn()"
+      />
+    </div>
+
+    @if (state.phase === 'finished') {
+      <div class="game-finished-layout">
+        <div class="game-column">
+          <div class="panel replay-panel">
+            <button
+              class="btn replay-button"
+              [class.replay-button-primary]="
+                replayButtonStateSignal() === 'primary'
+              "
+              [class.replay-button-waiting]="
+                replayButtonStateSignal() === 'waiting'
+              "
+              [class.replay-button-ready]="
+                replayButtonStateSignal() === 'ready'
+              "
+              [class.replay-button-danger]="
+                replayButtonStateSignal() === 'danger'
+              "
+              type="button"
+              [disabled]="replayButtonDisabledSignal()"
+              (click)="replayFn()"
+            >
+              @if (showReplaySpinnerSignal()) {
+                <span class="replay-spinner" aria-hidden="true"></span>
+              }
+              {{ replayButtonLabelSignal() }}
+            </button>
+          </div>
+          <poker-game-finished-panel [state]="state" />
+        </div>
+
+        @if (panelLogVisibleSignal()) {
+          <div class="game-column">
+            <poker-log-panel
+              [logs]="state.logs"
+              [players]="state.players"
+              [showTimestamp]="logShowTimestampSignal()"
+            />
+          </div>
+        }
+      </div>
+    } @else {
+      <div class="game-layout">
+        @if (panelSettingsVisibleSignal()) {
+          <div class="game-block game-settings-block">
+            <poker-game-settings-panel
+              [state]="state"
+              [audioEnabled]="readLogEnabledSignal()"
+              [audioVolume]="speechVolumeSignal()"
+              [audioSpeed]="speechSpeedSignal()"
+              [bingEnabled]="bingEnabledSignal()"
+              [chatSoundEnabled]="chatSoundEnabledSignal()"
+              [spectatorChatAllowed]="spectatorChatAllowedSignal()"
+              [isHost]="isHostSignal()"
+              [showTimestamp]="logShowTimestampSignal()"
+              [raiseInputMode]="raiseInputModeSignal()"
+              [onToggleAudio]="toggleReadLogFn"
+              [onBingToggle]="toggleBingFn"
+              [onChatSoundToggle]="setChatSoundEnabledFn"
+              [onSpectatorChatToggle]="setSpectatorChatAllowedFn"
+              [onAudioVolumeChange]="setSpeechVolumeFn"
+              [onAudioSpeedChange]="setSpeechSpeedFn"
+              [onEndLobby]="endLobbyFn"
+              [onShowTimestampChange]="setLogShowTimestampFn"
+              [onRaiseInputModeChange]="setRaiseInputModeFn"
+            />
+          </div>
+        }
+
+        @if (panelPlayersVisibleSignal()) {
+          <div class="game-block game-players-block">
+            <poker-player-list-panel [state]="state" />
+          </div>
+        }
+
+        <div class="game-block game-table-block">
+          <poker-trick-area
+            [communityCards]="state.currentRound?.communityCards ?? []"
+            [potTotal]="state.currentRound?.potTotal ?? 0"
+            [pots]="state.currentRound?.pots ?? []"
+            [streetLabel]="streetLabel()"
+            [activePlayerName]="activePlayerNameSignal()"
+          />
+        </div>
+
+        <div class="game-block game-actions-block">
+          @if (!isWatchingOnlySignal()) {
+            @if (shouldShowActionControlsSignal()) {
+              @if (
+                state.currentRound?.availableActions !== null &&
+                state.currentRound?.availableActions !== undefined
+              ) {
+                <poker-prediction-panel
+                  [availability]="state.currentRound!.availableActions!"
+                  [stack]="currentRoundPlayer()?.stack ?? 0"
+                  [buyIn]="state.config.buyIn"
+                  [currentBet]="state.currentRound?.currentBet ?? 0"
+                  [raiseInputMode]="raiseInputModeSignal()"
+                  [onFold]="foldFn"
+                  [onCheck]="checkFn"
+                  [onCall]="callFn"
+                  [onRaise]="raiseFn"
+                  [onAllIn]="allInFn"
+                />
+              }
+            }
+
+            <poker-hand-area
+              [cards]="currentRoundPlayer()?.hand ?? []"
+              [communityCards]="state.currentRound?.communityCards ?? []"
+              [stack]="currentRoundPlayer()?.stack ?? null"
+            />
+          } @else {
+            <div class="panel spectator-panel">
+              <div class="muted">{{ 'spectatorMode' | t }}</div>
+            </div>
+          }
+        </div>
+
+        @if (panelLogVisibleSignal()) {
+          <div class="game-block game-log-block">
+            <poker-log-panel
+              [logs]="state.logs"
+              [players]="state.players"
+              [showTimestamp]="logShowTimestampSignal()"
+            />
+          </div>
+        }
+
+        <div class="game-block game-previous-round-block">
+          <poker-previous-round-cards-panel
+            [previousRound]="state.previousRoundRevealedCards"
+            [players]="state.players"
+          />
+        </div>
+
+        @if (panelChatVisibleSignal()) {
+          <div class="game-block game-chat-block">
+            <poker-chat-panel
+              [messages]="state.chatMessages"
+              [selfPlayerId]="state.selfPlayerId"
+              [selfRole]="selfRoleSignal()"
+              [spectatorChatAllowed]="spectatorChatAllowedSignal()"
+              [canToggleSpectatorChat]="isHostSignal()"
+              [chatSoundEnabled]="chatSoundEnabledSignal()"
+              (sendMessage)="sendChatMessageFn($event)"
+              (spectatorChatToggle)="setSpectatorChatAllowedFn($event)"
+              (chatSoundToggle)="setChatSoundEnabledFn($event)"
+            />
+          </div>
+        }
+      </div>
+    }
+
+    @if (deviceSwitchModalVisibleSignal()) {
+      @if (deviceSwitchTokenSignal(); as switchData) {
+        <poker-device-switch-modal
+          [switchUrl]="switchData.url"
+          [expiresAt]="switchData.expiresAt"
+          [expiresInSeconds]="switchData.expiresInSeconds"
+          (close)="closeDeviceSwitchFn()"
+        />
+      }
+    }
+
+    @if (deviceSwitchConfirmationSignal()) {
+      <poker-device-switch-confirmation
+        (confirm)="confirmDeviceSwitchFn()"
+        (cancel)="cancelDeviceSwitchFn()"
+      />
+    }
+  }
+</div>

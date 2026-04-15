@@ -1,0 +1,133 @@
+.game-finished-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 320px;
+  gap: 16px;
+  align-items: start;
+  margin-top: 16px;
+}
+
+.game-layout {
+  display: grid;
+  grid-template-columns: 320px minmax(0, 1fr) 320px;
+  grid-template-areas:
+    'settings table log'
+    'players actions previous'
+    'chat chat chat';
+  gap: 16px;
+  margin-top: 16px;
+}
+
+.game-column,
+.game-block,
+.game-actions-block {
+  min-width: 0;
+}
+
+.game-column,
+.game-actions-block {
+  display: grid;
+  gap: 16px;
+}
+
+.game-settings-block {
+  grid-area: settings;
+}
+
+.game-players-block {
+  grid-area: players;
+}
+
+.game-table-block {
+  grid-area: table;
+}
+
+.game-actions-block {
+  grid-area: actions;
+}
+
+.game-log-block {
+  grid-area: log;
+}
+
+.game-previous-round-block {
+  grid-area: previous;
+}
+
+.game-chat-block {
+  grid-area: chat;
+}
+
+.winners-banner,
+.spectator-panel {
+  display: grid;
+  gap: 6px;
+}
+
+.replay-button {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-weight: 700;
+}
+
+.replay-button-primary {
+  background: var(--accent);
+  color: #111827;
+  border-color: #e4bc48;
+}
+
+.replay-button-waiting {
+  background: #64748b;
+  color: #f8fafc;
+  border-color: #94a3b8;
+}
+
+.replay-button-ready {
+  background: #16a34a;
+  color: #ffffff;
+  border-color: #22c55e;
+}
+
+.replay-button-danger {
+  background: var(--danger);
+  color: #ffffff;
+  border-color: #ef6f6b;
+}
+
+.replay-button:disabled {
+  cursor: not-allowed;
+  opacity: 1;
+}
+
+.replay-spinner {
+  width: 14px;
+  height: 14px;
+  border: 2px solid rgb(248 250 252 / 0.45);
+  border-top-color: #ffffff;
+  border-radius: 50%;
+  animation: replay-spin 0.8s linear infinite;
+}
+
+@keyframes replay-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@media (max-width: 1100px) {
+  .game-finished-layout,
+  .game-layout {
+    grid-template-columns: 1fr;
+  }
+
+  .game-layout {
+    grid-template-areas:
+      'settings'
+      'players'
+      'table'
+      'actions'
+      'log'
+      'previous'
+      'chat';
+  }
+}

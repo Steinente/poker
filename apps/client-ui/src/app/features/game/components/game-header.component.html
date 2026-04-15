@@ -1,0 +1,89 @@
+﻿<div class="panel">
+  <div class="spread">
+    <div class="header-meta">
+      <h2 style="margin: 0">{{ 'gameTable' | t }}</h2>
+      <div class="muted">{{ 'lobby' | t }} {{ state.lobbyCode }}</div>
+      <div class="header-rules" aria-label="Game rules summary">
+        <span class="header-rules-label">{{ 'rules' | t }}</span>
+        <div class="header-rules-list">
+          @for (rule of ruleItems; track rule.id) {
+            <span class="header-rule-chip">
+              <span class="header-rule-chip-label">{{ rule.label }}:</span>
+              <span class="header-rule-chip-value">{{ rule.value }}</span>
+            </span>
+          }
+        </div>
+      </div>
+    </div>
+
+    <div class="header-controls">
+      <div class="header-controls-top">
+        @if (!isSpectator()) {
+          <button
+            class="btn header-device-switch-btn"
+            type="button"
+            title="{{ 'deviceSwitch.button' | t }}"
+            (click)="onDeviceSwitch()"
+            aria-label="{{ 'deviceSwitch.button' | t }}"
+          >
+            {{ 'deviceSwitch.button' | t }}
+          </button>
+        }
+        <poker-panel-settings
+          class="header-panel-settings"
+          [settingsVisible]="settingsVisible"
+          [playersVisible]="playersVisible"
+          [logVisible]="logVisible"
+          [chatVisible]="chatVisible"
+          (settingsChange)="panelSettingsChange.emit($event)"
+          (playersChange)="panelPlayersChange.emit($event)"
+          (logChange)="panelLogChange.emit($event)"
+          (chatChange)="panelChatChange.emit($event)"
+        />
+        <button
+          class="btn header-home-btn"
+          type="button"
+          (pointerdown)="homeButtonUserGesture.emit()"
+          (click)="confirmLeaveGame()"
+        >
+          {{ 'home' | t }}
+        </button>
+      </div>
+
+      <div class="header-status-row">
+        <span class="status-pill">{{ 'phase' | t }} {{ translatedPhase }}</span>
+
+        @if (showDeckBadge) {
+          <span class="status-pill">{{ 'deck' | t }} {{ deckLabel }}</span>
+        }
+
+        <span class="status-pill">{{ 'round' | t }} {{ roundLabel }}</span>
+        <span
+          class="status-pill"
+          [class.active-turn]="spectatorCount > 0"
+          role="button"
+          tabindex="0"
+          (click)="toggleSpectators()"
+          (keydown.enter)="toggleSpectators()"
+          (keydown.space)="toggleSpectators()"
+          style="cursor: pointer; user-select: none"
+        >
+          {{ 'spectators' | t }} {{ spectatorCount }}
+        </span>
+      </div>
+
+      @if (showSpectators) {
+        <div class="panel header-spectators-panel">
+          <div class="label" style="margin-bottom: 8px">
+            {{ 'spectators' | t }}:
+          </div>
+          @if (!state.spectators.length) {
+            <div class="muted">{{ 'noSpectators' | t }}</div>
+          } @else {
+            <div class="muted">{{ spectatorNames }}</div>
+          }
+        </div>
+      }
+    </div>
+  </div>
+</div>

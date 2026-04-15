@@ -1,0 +1,45 @@
+<div class="device-switch-overlay" (click)="onOverlayClick()">
+  <div class="device-switch-dialog panel" (click)="onDialogClick($event)">
+    <div class="device-switch-header">
+      <h3>{{ 'deviceSwitch.title' | t }}</h3>
+      <button class="btn" type="button" (click)="close.emit()">
+        {{ 'cancel' | t }}
+      </button>
+    </div>
+
+    <div class="device-switch-qr-wrap">
+      @if (qrLoading()) {
+        <div class="device-switch-qr-loader" aria-live="polite">
+          <span class="device-switch-qr-spinner" aria-hidden="true"></span>
+          <span class="muted">{{ 'loading' | t }}...</span>
+        </div>
+      }
+
+      @if (qrLoadFailed()) {
+        <p class="muted">QR-Code konnte nicht geladen werden.</p>
+      }
+
+      <img
+        class="device-switch-qr"
+        [class.device-switch-qr-hidden]="qrLoading() || qrLoadFailed()"
+        [src]="qrCodeUrl"
+        alt="QR Code"
+        (load)="onQrCodeLoaded()"
+        (error)="onQrCodeError()"
+      />
+    </div>
+
+    <p class="muted">{{ 'deviceSwitch.scanHint' | t }}</p>
+
+    <div class="device-switch-link-row">
+      <input class="input" [value]="switchUrl" readonly />
+      <button class="btn btn-primary" type="button" (click)="copyUrl()">
+        {{ copied() ? ('copied' | t) : ('copyLink' | t) }}
+      </button>
+    </div>
+
+    <div class="device-switch-footer muted">
+      {{ 'deviceSwitch.validFor' | t }}: {{ formatCountdown() }}
+    </div>
+  </div>
+</div>

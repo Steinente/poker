@@ -1,0 +1,12 @@
+node_modules
+dist
+coverage
+.angular
+.env
+.env.local
+apps/server/dist
+packages/shared/dist
+apps/server/generated
+packages/shared/src/**/*.js
+packages/shared/src/**/*.js.map
+packages/shared/src/**/*.d.ts
