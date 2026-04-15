@@ -13,7 +13,12 @@
     "lint": "pnpm -r lint",
     "test": "pnpm -r test",
     "format": "pnpm -r format",
-    "serve:ssr:client-ui": "node dist/client-ui/server/server.mjs"
+    "serve:ssr:client-ui": "node dist/client-ui/server/server.mjs",
+    "docker:build:server": "docker build -f apps/server/Dockerfile -t steinente/poker-server:latest .",
+    "docker:build:client-ui-ssr": "docker build -f apps/client-ui/Dockerfile.ssr -t steinente/poker-client-ui-ssr:latest .",
+    "docker:push:server": "docker push steinente/poker-server:latest",
+    "docker:push:client-ui-ssr": "docker push steinente/poker-client-ui-ssr:latest",
+    "docker:publish": "pnpm docker:build:server && pnpm docker:push:server && pnpm docker:build:client-ui-ssr && pnpm docker:push:client-ui-ssr"
   },
   "dependencies": {
     "@angular/common": "^21.0.0",

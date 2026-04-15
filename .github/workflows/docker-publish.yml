@@ -1,0 +1,47 @@
+name: Build and push Docker images
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'apps/server/**'
+      - 'apps/client-ui/**'
+      - 'apps/client-ui/Dockerfile.ssr'
+      - 'apps/server/Dockerfile'
+      - 'package.json'
+      - 'pnpm-lock.yaml'
+      - 'docker-compose.yml'
+
+jobs:
+  build-and-push:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up pnpm
+        uses: pnpm/action-setup@v2
+        with:
+          version: 10
+
+      - name: Log in to Docker Hub
+        uses: docker/login-action@v3
+        with:
+          registry: docker.io
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+
+      - name: Build and push server image
+        uses: docker/build-push-action@v5
+        with:
+          context: .
+          file: apps/server/Dockerfile
+          push: true
+          tags: steinente/poker-server:latest
+
+      - name: Build and push client-ui-ssr image
+        uses: docker/build-push-action@v5
+        with:
+          context: .
+          file: apps/client-ui/Dockerfile.ssr
+          push: true
+          tags: steinente/poker-client-ui-ssr:latest
