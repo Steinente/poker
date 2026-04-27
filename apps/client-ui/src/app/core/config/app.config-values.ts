@@ -19,7 +19,7 @@ const resolveSocketUrl = () => {
 
 export const SOCKET_URL = resolveSocketUrl()
 export const SESSION_TOKEN_KEY = 'steinente.poker.sessionToken'
-export const PLAYER_NAME_KEY = 'steinente.poker.playerName'
+export const PLAYER_NAME_KEY = 'steinente.playerName'
 export const LAST_LOBBY_CODE_KEY = 'steinente.poker.lastLobbyCode'
 export const LOBBY_CONFIG_KEY = 'steinente.poker.lobbyConfig'
 export const READ_LOG_ENABLED_KEY = 'steinente.poker.readLogEnabled'
