@@ -44,6 +44,7 @@ export class HomePageComponent implements OnInit, OnDestroy {
   onPlayerNameChange(value: string) {
     this.playerNameTouched = true
     this.playerName = value.slice(0, this.playerNameMaxLength)
+    this.session.setPlayerName(this.playerName)
   }
 
   onPlayerNameBlur() {
