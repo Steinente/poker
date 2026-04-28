@@ -38,8 +38,13 @@ import { TPipe } from '../../../shared/pipes/t.pipe'
           }
 
           @if (availability.canAllIn) {
-            <button class="btn btn-danger" type="button" (click)="onAllIn()">
-              {{ i18n.format('game.allInAmount', { amount: stack }) }}
+            <button
+              class="btn btn-danger"
+              type="button"
+              [class.all-in-confirming]="confirmingAllIn"
+              (click)="handleAllInClick()"
+            >
+              {{ allInButtonLabel() }}
             </button>
           }
         </div>
@@ -114,6 +119,11 @@ import { TPipe } from '../../../shared/pipes/t.pipe'
       .raise-input-group .btn {
         min-width: 36px;
       }
+
+      .all-in-confirming {
+        outline: 2px solid #fbbf24;
+        outline-offset: 2px;
+      }
     `,
   ],
 })
@@ -132,6 +142,7 @@ export class PredictionPanelComponent implements OnChanges {
   @Input({ required: true }) onAllIn!: () => void
 
   raiseAmountInput = 0
+  confirmingAllIn = false
 
   ngOnChanges() {
     const minimum = this.minimumRaiseInput()
@@ -139,6 +150,8 @@ export class PredictionPanelComponent implements OnChanges {
     if (minimum > 0) {
       this.raiseAmountInput = minimum
     }
+
+    this.confirmingAllIn = false
   }
 
   normalizeRaiseValue(value: number | string) {
@@ -231,6 +244,7 @@ export class PredictionPanelComponent implements OnChanges {
       return
     }
 
+    this.confirmingAllIn = false
     this.raiseAmountInput = this.normalizeRaiseValue(
       this.raiseAmountInput + this.raiseStep(),
     )
@@ -241,6 +255,7 @@ export class PredictionPanelComponent implements OnChanges {
       return
     }
 
+    this.confirmingAllIn = false
     this.raiseAmountInput = this.normalizeRaiseValue(
       this.raiseAmountInput - this.raiseStep(),
     )
@@ -262,11 +277,30 @@ export class PredictionPanelComponent implements OnChanges {
       return
     }
 
+    this.confirmingAllIn = false
     const raiseBy =
       this.raiseInputMode === 'by'
         ? this.raiseAmountInput
         : Math.max(0, this.raiseAmountInput - this.currentBet)
 
     this.onRaise(raiseBy)
+  }
+
+  allInButtonLabel() {
+    const key = this.confirmingAllIn
+      ? 'game.confirmAllInAmount'
+      : 'game.allInAmount'
+
+    return this.i18n.format(key, { amount: this.stack })
+  }
+
+  handleAllInClick() {
+    if (!this.confirmingAllIn) {
+      this.confirmingAllIn = true
+      return
+    }
+
+    this.confirmingAllIn = false
+    this.onAllIn()
   }
 }

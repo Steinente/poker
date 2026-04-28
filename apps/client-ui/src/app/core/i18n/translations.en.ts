@@ -343,6 +343,7 @@ export const en = {
   'game.raiseBy': 'Raise by',
   'game.callAmount': 'Call {amount}',
   'game.allInAmount': 'All-in {amount}',
+  'game.confirmAllInAmount': 'Confirm all-in {amount}',
   'game.raiseBtn': 'Raise',
   'game.handRank.pending': 'Hand Rank: -',
   'game.handRank.royalFlush': 'Hand Rank: Royal Flush',
