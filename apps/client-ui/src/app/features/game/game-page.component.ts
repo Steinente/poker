@@ -323,6 +323,7 @@ export class GamePageComponent {
     )
   readonly openDeviceSwitchFn = () => this.openDeviceSwitchModal()
   readonly closeDeviceSwitchFn = () => this.closeDeviceSwitchModal()
+  readonly cancelDeviceSwitchRequestFn = () => this.cancelDeviceSwitchRequest()
   readonly confirmDeviceSwitchFn = () => this.confirmDeviceSwitch(true)
   readonly cancelDeviceSwitchFn = () => this.confirmDeviceSwitch(false)
   readonly foldFn = () => {
@@ -379,13 +380,33 @@ export class GamePageComponent {
       return
     }
 
+    if (this.hasActiveDeviceSwitchToken()) {
+      this.deviceSwitchModalVisibleSignal.set(true)
+      return
+    }
+
+    this.facade.clearDeviceSwitchToken()
     this.facade.requestDeviceSwitch(code)
     this.deviceSwitchModalVisibleSignal.set(true)
   }
 
   closeDeviceSwitchModal() {
     this.deviceSwitchModalVisibleSignal.set(false)
+  }
+
+  cancelDeviceSwitchRequest() {
+    this.deviceSwitchModalVisibleSignal.set(false)
     this.facade.clearDeviceSwitchToken()
+  }
+
+  private hasActiveDeviceSwitchToken(): boolean {
+    const token = this.deviceSwitchTokenSignal()
+    if (!token) {
+      return false
+    }
+
+    const expiresAtMs = new Date(token.expiresAt).getTime()
+    return !Number.isNaN(expiresAtMs) && expiresAtMs > Date.now()
   }
 
   confirmDeviceSwitch(confirmed: boolean) {

@@ -3,7 +3,7 @@
     <div class="device-switch-header">
       <h3>{{ 'deviceSwitch.title' | t }}</h3>
       <button class="btn" type="button" (click)="close.emit()">
-        {{ 'cancel' | t }}
+        {{ 'close' | t }}
       </button>
     </div>
 
@@ -33,13 +33,29 @@
 
     <div class="device-switch-link-row">
       <input class="input" [value]="switchUrl" readonly />
+    </div>
+
+    <div class="device-switch-actions">
       <button class="btn btn-primary" type="button" (click)="copyUrl()">
         {{ copied() ? ('copied' | t) : ('copyLink' | t) }}
       </button>
+      <button
+        class="btn btn-primary"
+        type="button"
+        [disabled]="!canShare()"
+        (click)="shareUrl()"
+      >
+        {{ 'deviceSwitch.shareAction' | t }}
+      </button>
     </div>
 
-    <div class="device-switch-footer muted">
-      {{ 'deviceSwitch.validFor' | t }}: {{ formatCountdown() }}
+    <div class="device-switch-footer">
+      <button class="btn" type="button" (click)="cancel.emit()">
+        {{ 'cancel' | t }}
+      </button>
+      <span class="muted">
+        {{ 'deviceSwitch.validFor' | t }}: {{ formatCountdown() }}
+      </span>
     </div>
   </div>
 </div>

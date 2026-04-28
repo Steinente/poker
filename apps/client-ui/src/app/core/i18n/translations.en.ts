@@ -47,6 +47,9 @@ export const en = {
   'deviceSwitch.confirmAction': 'Switch now',
   'deviceSwitch.joinHint': 'Waiting for confirmation from the other device.',
   'deviceSwitch.joinAction': 'Continue session',
+  'deviceSwitch.shareAction': 'Share link',
+  'deviceSwitch.shareText':
+    'Open this link on your other device to continue your game there.',
 
   // Lobby room
   players: 'Players',
@@ -63,6 +66,7 @@ export const en = {
   closeLobby: 'Close lobby',
   confirmCloseLobby: 'Confirm close',
   cancel: 'Cancel',
+  close: 'Close',
 
   // Common
   'common.conjunction.and': 'and',
@@ -187,6 +191,15 @@ export const en = {
   smallBlindLabel: 'Small blind',
   bigBlindLabel: 'Big blind',
   officialRules: 'Official rules',
+  automaticBlindIncreaseLabel: 'Automatic blind increase',
+  automaticBlindIncreaseEnabled: 'Enabled',
+  automaticBlindIncreaseModeLabel: 'Blind increase mode',
+  'automaticBlindIncreaseMode.time': 'Every x minutes',
+  'automaticBlindIncreaseMode.dealerRounds': 'Every x dealer rounds',
+  automaticBlindIncreaseValueTimeLabel: 'Minutes until blind increase',
+  automaticBlindIncreaseValueDealerRoundsLabel:
+    'Dealer rounds until blind increase',
+  automaticBlindIncreaseAmountLabel: 'Increase big blind by',
   closePopup: 'Close popup',
   enabled: 'On',
 
@@ -209,6 +222,8 @@ export const en = {
   'log.game.hand.started': 'New hand cards were dealt',
   'log.game.hand.blindsPosted':
     'Blinds posted: {smallBlindPlayerName} ({smallBlind}) / {bigBlindPlayerName} ({bigBlind})',
+  'log.game.blinds.increased':
+    'Blinds increased: SB {previousSmallBlind} -> {smallBlind}, BB {previousBigBlind} -> {bigBlind} (BB +{amount})',
   'log.game.street.preflop': 'Preflop',
   'log.game.street.flop': 'Flop: {cards}',
   'log.game.street.turn': 'Turn: {cards}',

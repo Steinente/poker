@@ -15,6 +15,10 @@ export const parseSpecialCardSettings = (
   buyIn: GameConfig['buyIn']
   smallBlind: GameConfig['smallBlind']
   bigBlind: GameConfig['bigBlind']
+  automaticBlindIncreaseEnabled: GameConfig['automaticBlindIncreaseEnabled']
+  automaticBlindIncreaseMode: GameConfig['automaticBlindIncreaseMode']
+  automaticBlindIncreaseValue: GameConfig['automaticBlindIncreaseValue']
+  automaticBlindIncreaseAmount: GameConfig['automaticBlindIncreaseAmount']
 } => {
   const fallback: {
     allowSpectatorChat: boolean
@@ -25,6 +29,10 @@ export const parseSpecialCardSettings = (
     buyIn: number
     smallBlind: number
     bigBlind: number
+    automaticBlindIncreaseEnabled: boolean
+    automaticBlindIncreaseMode: GameConfig['automaticBlindIncreaseMode']
+    automaticBlindIncreaseValue: number
+    automaticBlindIncreaseAmount: number
   } = {
     allowSpectatorChat: true,
     gameType: 'poker' as const,
@@ -34,6 +42,10 @@ export const parseSpecialCardSettings = (
     buyIn: 1000,
     smallBlind: 10,
     bigBlind: 20,
+    automaticBlindIncreaseEnabled: false,
+    automaticBlindIncreaseMode: 'time',
+    automaticBlindIncreaseValue: 5,
+    automaticBlindIncreaseAmount: 20,
   }
 
   if (!value) {
@@ -88,6 +100,21 @@ export const parseSpecialCardSettings = (
           : fallback.buyIn,
       smallBlind,
       bigBlind,
+      automaticBlindIncreaseEnabled:
+        parsed.automaticBlindIncreaseEnabled === true,
+      automaticBlindIncreaseMode:
+        parsed.automaticBlindIncreaseMode === 'time' ||
+        parsed.automaticBlindIncreaseMode === 'dealerRounds'
+          ? parsed.automaticBlindIncreaseMode
+          : fallback.automaticBlindIncreaseMode,
+      automaticBlindIncreaseValue:
+        typeof parsed.automaticBlindIncreaseValue === 'number'
+          ? Math.max(1, Math.floor(parsed.automaticBlindIncreaseValue))
+          : fallback.automaticBlindIncreaseValue,
+      automaticBlindIncreaseAmount:
+        typeof parsed.automaticBlindIncreaseAmount === 'number'
+          ? Math.max(1, Math.floor(parsed.automaticBlindIncreaseAmount))
+          : fallback.automaticBlindIncreaseAmount,
     }
   } catch {
     return fallback
@@ -131,6 +158,10 @@ export const serializeSpecialCardSettings = (settings: {
   buyIn: GameConfig['buyIn']
   smallBlind: GameConfig['smallBlind']
   bigBlind: GameConfig['bigBlind']
+  automaticBlindIncreaseEnabled: GameConfig['automaticBlindIncreaseEnabled']
+  automaticBlindIncreaseMode: GameConfig['automaticBlindIncreaseMode']
+  automaticBlindIncreaseValue: GameConfig['automaticBlindIncreaseValue']
+  automaticBlindIncreaseAmount: GameConfig['automaticBlindIncreaseAmount']
 }) => JSON.stringify(settings)
 
 export const toJson = (value: PokerGameState): Prisma.JsonObject =>
@@ -138,11 +169,29 @@ export const toJson = (value: PokerGameState): Prisma.JsonObject =>
 
 export const fromJson = (value: unknown): PokerGameState => {
   const state = value as PokerGameState & {
+    automaticBlindIncrease?: Partial<PokerGameState['automaticBlindIncrease']>
     chatMessages?: unknown
     previousRoundRevealedCards?: unknown
     randomizerPoolSpecialCards?: unknown
     winnerPlayerIds?: unknown
   }
+
+  state.config.automaticBlindIncreaseEnabled =
+    state.config.automaticBlindIncreaseEnabled === true
+  state.config.automaticBlindIncreaseMode =
+    state.config.automaticBlindIncreaseMode === 'dealerRounds'
+      ? 'dealerRounds'
+      : 'time'
+  state.config.automaticBlindIncreaseValue =
+    typeof state.config.automaticBlindIncreaseValue === 'number' &&
+    Number.isFinite(state.config.automaticBlindIncreaseValue)
+      ? Math.max(1, Math.floor(state.config.automaticBlindIncreaseValue))
+      : 5
+  state.config.automaticBlindIncreaseAmount =
+    typeof state.config.automaticBlindIncreaseAmount === 'number' &&
+    Number.isFinite(state.config.automaticBlindIncreaseAmount)
+      ? Math.max(1, Math.floor(state.config.automaticBlindIncreaseAmount))
+      : 20
 
   if (!Array.isArray(state.chatMessages)) {
     state.chatMessages = []
@@ -158,6 +207,22 @@ export const fromJson = (value: unknown): PokerGameState => {
 
   if (!Array.isArray(state.winnerPlayerIds)) {
     state.winnerPlayerIds = []
+  }
+
+  state.automaticBlindIncrease = {
+    timeWindowStartedAt:
+      typeof state.automaticBlindIncrease?.timeWindowStartedAt === 'string'
+        ? state.automaticBlindIncrease.timeWindowStartedAt
+        : new Date().toISOString(),
+    handsSinceLastIncrease:
+      typeof state.automaticBlindIncrease?.handsSinceLastIncrease ===
+        'number' &&
+      Number.isFinite(state.automaticBlindIncrease.handsSinceLastIncrease)
+        ? Math.max(
+            0,
+            Math.floor(state.automaticBlindIncrease.handsSinceLastIncrease),
+          )
+        : 0,
   }
 
   state.previousRoundRevealedCards ??= null

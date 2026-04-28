@@ -7,8 +7,10 @@ import {
   OnDestroy,
   Output,
   SimpleChanges,
+  inject,
   signal,
 } from '@angular/core'
+import { I18nService } from '../../../core/i18n/i18n.service'
 import { TPipe } from '../../../shared/pipes/t.pipe'
 
 @Component({
@@ -20,10 +22,13 @@ import { TPipe } from '../../../shared/pipes/t.pipe'
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class DeviceSwitchModalComponent implements OnChanges, OnDestroy {
+  private readonly i18n = inject(I18nService)
+
   @Input({ required: true }) switchUrl = ''
   @Input({ required: true }) expiresAt = ''
   @Input() expiresInSeconds = 0
   @Output() readonly close = new EventEmitter<void>()
+  @Output() readonly cancel = new EventEmitter<void>()
 
   readonly copied = signal(false)
   readonly secondsRemaining = signal(0)
@@ -94,6 +99,32 @@ export class DeviceSwitchModalComponent implements OnChanges, OnDestroy {
     }
   }
 
+  canShare(): boolean {
+    return (
+      typeof navigator !== 'undefined' &&
+      typeof navigator.share === 'function' &&
+      !!this.switchUrl.trim()
+    )
+  }
+
+  async shareUrl() {
+    if (!this.canShare()) {
+      return
+    }
+
+    try {
+      await navigator.share({
+        title: this.i18n.t('deviceSwitch.title'),
+        text: this.i18n.t('deviceSwitch.shareText'),
+        url: this.switchUrl,
+      })
+    } catch (error) {
+      if (error instanceof DOMException && error.name === 'AbortError') {
+        return
+      }
+    }
+  }
+
   formatCountdown() {
     const total = this.secondsRemaining()
     const minutes = Math.floor(total / 60)
@@ -104,7 +135,7 @@ export class DeviceSwitchModalComponent implements OnChanges, OnDestroy {
   private restartCountdown() {
     this.clearCountdown()
 
-    if (this.expiresInSeconds > 0) {
+    if (this.getExpiresAtMs() === null && this.expiresInSeconds > 0) {
       this.secondsRemaining.set(this.expiresInSeconds)
       this.countdownId = setInterval(() => {
         const next = Math.max(0, this.secondsRemaining() - 1)
@@ -130,7 +161,13 @@ export class DeviceSwitchModalComponent implements OnChanges, OnDestroy {
   }
 
   private updateCountdown() {
-    const expiresAtMs = new Date(this.expiresAt).getTime()
+    const expiresAtMs = this.getExpiresAtMs()
+    if (expiresAtMs === null) {
+      this.secondsRemaining.set(0)
+      this.clearCountdown()
+      return
+    }
+
     const nowMs = Date.now()
     const remaining = Math.max(0, Math.floor((expiresAtMs - nowMs) / 1000))
     this.secondsRemaining.set(remaining)
@@ -138,5 +175,10 @@ export class DeviceSwitchModalComponent implements OnChanges, OnDestroy {
     if (remaining <= 0) {
       this.clearCountdown()
     }
+  }
+
+  private getExpiresAtMs(): number | null {
+    const expiresAtMs = new Date(this.expiresAt).getTime()
+    return Number.isNaN(expiresAtMs) ? null : expiresAtMs
   }
 }

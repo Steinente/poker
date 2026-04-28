@@ -2,7 +2,9 @@
 import { FormsModule } from '@angular/forms'
 import { ActivatedRoute, RouterLink } from '@angular/router'
 import {
+  AUTOMATIC_BLIND_INCREASE_MODES,
   HOLDEM_LIMIT_MODES,
+  type AutomaticBlindIncreaseMode,
   type GameConfig,
   type HoldemLimitMode,
 } from '@poker/shared'
@@ -35,6 +37,7 @@ export class LobbyPageComponent {
 
   routeCode = this.route.snapshot.paramMap.get('code')?.toUpperCase() ?? ''
   readonly holdemLimitModes = HOLDEM_LIMIT_MODES
+  readonly automaticBlindIncreaseModes = AUTOMATIC_BLIND_INCREASE_MODES
 
   readonly isHost = computed(() => {
     const lobby = this.store.lobby()
@@ -46,6 +49,14 @@ export class LobbyPageComponent {
   )
   lobbyStatusKey(status: string): TranslationKey {
     return `lobbyStatus.${status.toLowerCase()}` as TranslationKey
+  }
+
+  automaticBlindIncreaseValueLabel() {
+    const mode = this.store.lobby()?.config.automaticBlindIncreaseMode ?? 'time'
+
+    return mode === 'dealerRounds'
+      ? this.i18n.t('automaticBlindIncreaseValueDealerRoundsLabel')
+      : this.i18n.t('automaticBlindIncreaseValueTimeLabel')
   }
 
   roleKey(role: string): TranslationKey {
@@ -251,6 +262,41 @@ export class LobbyPageComponent {
     const nextBuyIn = Math.max(lobby.config.buyIn, nextBigBlind)
 
     this.updateConfigIfHost({ bigBlind: nextBigBlind, buyIn: nextBuyIn })
+  }
+
+  setAutomaticBlindIncreaseEnabled(enabled: boolean) {
+    this.updateConfigIfHost({ automaticBlindIncreaseEnabled: enabled })
+  }
+
+  setAutomaticBlindIncreaseMode(mode: AutomaticBlindIncreaseMode | string) {
+    const nextMode = mode === 'dealerRounds' ? mode : 'time'
+
+    this.updateConfigIfHost({
+      automaticBlindIncreaseMode: nextMode,
+      automaticBlindIncreaseValue: nextMode === 'dealerRounds' ? 1 : 5,
+    })
+  }
+
+  setAutomaticBlindIncreaseValue(value: number) {
+    const lobby = this.store.lobby()
+    if (!lobby) return
+
+    const nextValue = Number.isFinite(value)
+      ? Math.max(1, Math.floor(value))
+      : lobby.config.automaticBlindIncreaseValue
+
+    this.updateConfigIfHost({ automaticBlindIncreaseValue: nextValue })
+  }
+
+  setAutomaticBlindIncreaseAmount(value: number) {
+    const lobby = this.store.lobby()
+    if (!lobby) return
+
+    const nextValue = Number.isFinite(value)
+      ? Math.max(1, Math.floor(value))
+      : lobby.config.automaticBlindIncreaseAmount
+
+    this.updateConfigIfHost({ automaticBlindIncreaseAmount: nextValue })
   }
 
   private updateConfigIfHost(patch: Partial<GameConfig>): void {

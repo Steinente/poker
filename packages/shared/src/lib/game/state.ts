@@ -67,10 +67,16 @@ export interface PreviousRoundRevealedCards {
   playerCards: PreviousRoundRevealedPlayerCards[]
 }
 
+export interface AutomaticBlindIncreaseState {
+  timeWindowStartedAt: string
+  handsSinceLastIncrease: number
+}
+
 export interface PokerGameState {
   lobbyCode: string
   lobbyStatus: LobbyStatus
   config: GameConfig
+  automaticBlindIncrease: AutomaticBlindIncreaseState
   randomizerPoolSpecialCards: SpecialCardKey[]
   players: GamePlayerMeta[]
   playerInteractionStats: GamePlayerInteractionStats[]

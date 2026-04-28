@@ -10,6 +10,10 @@ export type SpecialCardSettings = Pick<
   | 'buyIn'
   | 'smallBlind'
   | 'bigBlind'
+  | 'automaticBlindIncreaseEnabled'
+  | 'automaticBlindIncreaseMode'
+  | 'automaticBlindIncreaseValue'
+  | 'automaticBlindIncreaseAmount'
 >
 
 const DEFAULT_SPECIAL_CARD_SETTINGS: SpecialCardSettings = {
@@ -21,6 +25,10 @@ const DEFAULT_SPECIAL_CARD_SETTINGS: SpecialCardSettings = {
   buyIn: 1000,
   smallBlind: 10,
   bigBlind: 20,
+  automaticBlindIncreaseEnabled: false,
+  automaticBlindIncreaseMode: 'time',
+  automaticBlindIncreaseValue: 5,
+  automaticBlindIncreaseAmount: 20,
 }
 
 export const parseSpecialCardSettings = (
@@ -44,6 +52,18 @@ export const parseSpecialCardSettings = (
       const maybeBuyIn = (parsed as { buyIn?: unknown }).buyIn
       const maybeSmallBlind = (parsed as { smallBlind?: unknown }).smallBlind
       const maybeBigBlind = (parsed as { bigBlind?: unknown }).bigBlind
+      const maybeAutomaticBlindIncreaseEnabled = (
+        parsed as { automaticBlindIncreaseEnabled?: unknown }
+      ).automaticBlindIncreaseEnabled
+      const maybeAutomaticBlindIncreaseMode = (
+        parsed as { automaticBlindIncreaseMode?: unknown }
+      ).automaticBlindIncreaseMode
+      const maybeAutomaticBlindIncreaseValue = (
+        parsed as { automaticBlindIncreaseValue?: unknown }
+      ).automaticBlindIncreaseValue
+      const maybeAutomaticBlindIncreaseAmount = (
+        parsed as { automaticBlindIncreaseAmount?: unknown }
+      ).automaticBlindIncreaseAmount
 
       const maxPlayers =
         typeof maybeMaxPlayers === 'number' && Number.isFinite(maybeMaxPlayers)
@@ -82,6 +102,24 @@ export const parseSpecialCardSettings = (
           ? Math.max(bigBlind, Math.floor(maybeBuyIn))
           : DEFAULT_SPECIAL_CARD_SETTINGS.buyIn
 
+      const automaticBlindIncreaseMode =
+        maybeAutomaticBlindIncreaseMode === 'time' ||
+        maybeAutomaticBlindIncreaseMode === 'dealerRounds'
+          ? maybeAutomaticBlindIncreaseMode
+          : DEFAULT_SPECIAL_CARD_SETTINGS.automaticBlindIncreaseMode
+
+      const automaticBlindIncreaseValue =
+        typeof maybeAutomaticBlindIncreaseValue === 'number' &&
+        Number.isFinite(maybeAutomaticBlindIncreaseValue)
+          ? Math.max(1, Math.floor(maybeAutomaticBlindIncreaseValue))
+          : DEFAULT_SPECIAL_CARD_SETTINGS.automaticBlindIncreaseValue
+
+      const automaticBlindIncreaseAmount =
+        typeof maybeAutomaticBlindIncreaseAmount === 'number' &&
+        Number.isFinite(maybeAutomaticBlindIncreaseAmount)
+          ? Math.max(1, Math.floor(maybeAutomaticBlindIncreaseAmount))
+          : DEFAULT_SPECIAL_CARD_SETTINGS.automaticBlindIncreaseAmount
+
       return {
         allowSpectatorChat: maybeAllowSpectatorChat !== false,
         gameType: maybeGameType === 'poker' ? 'poker' : 'poker',
@@ -94,6 +132,11 @@ export const parseSpecialCardSettings = (
         buyIn,
         smallBlind,
         bigBlind,
+        automaticBlindIncreaseEnabled:
+          maybeAutomaticBlindIncreaseEnabled === true,
+        automaticBlindIncreaseMode,
+        automaticBlindIncreaseValue,
+        automaticBlindIncreaseAmount,
       }
     }
 

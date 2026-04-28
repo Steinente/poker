@@ -236,6 +236,91 @@
                 />
               </div>
             </div>
+
+            <div class="blind-increase-control" style="margin-top: 14px">
+              <div class="blind-increase-field">
+                <span>{{ 'automaticBlindIncreaseLabel' | t }}</span>
+                <label class="blind-increase-toggle">
+                  <input
+                    type="checkbox"
+                    [disabled]="!isHost()"
+                    [ngModel]="
+                      store.lobby()!.config.automaticBlindIncreaseEnabled
+                    "
+                    (ngModelChange)="setAutomaticBlindIncreaseEnabled($event)"
+                  />
+                  <span>{{ 'automaticBlindIncreaseEnabled' | t }}</span>
+                </label>
+              </div>
+
+              <label
+                class="blind-increase-field"
+                [class.blind-increase-disabled]="
+                  !store.lobby()!.config.automaticBlindIncreaseEnabled
+                "
+              >
+                <span>{{ 'automaticBlindIncreaseModeLabel' | t }}</span>
+                <select
+                  class="select"
+                  [disabled]="
+                    !isHost() ||
+                    !store.lobby()!.config.automaticBlindIncreaseEnabled
+                  "
+                  [ngModel]="store.lobby()!.config.automaticBlindIncreaseMode"
+                  (ngModelChange)="setAutomaticBlindIncreaseMode($event)"
+                  [attr.aria-label]="'automaticBlindIncreaseModeLabel' | t"
+                >
+                  <option value="time">
+                    {{ 'automaticBlindIncreaseMode.time' | t }}
+                  </option>
+                  <option value="dealerRounds">
+                    {{ 'automaticBlindIncreaseMode.dealerRounds' | t }}
+                  </option>
+                </select>
+              </label>
+
+              <label
+                class="blind-increase-field"
+                [class.blind-increase-disabled]="
+                  !store.lobby()!.config.automaticBlindIncreaseEnabled
+                "
+              >
+                <span>{{ automaticBlindIncreaseValueLabel() }}</span>
+                <input
+                  class="input"
+                  type="number"
+                  min="1"
+                  [disabled]="
+                    !isHost() ||
+                    !store.lobby()!.config.automaticBlindIncreaseEnabled
+                  "
+                  [ngModel]="store.lobby()!.config.automaticBlindIncreaseValue"
+                  (ngModelChange)="setAutomaticBlindIncreaseValue($event)"
+                  [attr.aria-label]="automaticBlindIncreaseValueLabel()"
+                />
+              </label>
+
+              <label
+                class="blind-increase-field"
+                [class.blind-increase-disabled]="
+                  !store.lobby()!.config.automaticBlindIncreaseEnabled
+                "
+              >
+                <span>{{ 'automaticBlindIncreaseAmountLabel' | t }}</span>
+                <input
+                  class="input"
+                  type="number"
+                  min="1"
+                  [disabled]="
+                    !isHost() ||
+                    !store.lobby()!.config.automaticBlindIncreaseEnabled
+                  "
+                  [ngModel]="store.lobby()!.config.automaticBlindIncreaseAmount"
+                  (ngModelChange)="setAutomaticBlindIncreaseAmount($event)"
+                  [attr.aria-label]="'automaticBlindIncreaseAmountLabel' | t"
+                />
+              </label>
+            </div>
           </div>
         </div>
       </div>

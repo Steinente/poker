@@ -182,11 +182,16 @@ export const createInitialGameState = (input: {
     input.players.length,
     input.config.includedSpecialCards,
   )
+  const createdAt = new Date().toISOString()
 
   return {
     lobbyCode: input.lobbyCode,
     lobbyStatus: 'running',
     config: input.config,
+    automaticBlindIncrease: {
+      timeWindowStartedAt: createdAt,
+      handsSinceLastIncrease: 0,
+    },
     randomizerPoolSpecialCards: input.randomizerPoolSpecialCards,
     players: input.players,
     playerInteractionStats: input.players.map((player) => ({
@@ -205,7 +210,7 @@ export const createInitialGameState = (input: {
     pendingDecision: null,
     resolvedCardEffects: [],
     winnerPlayerIds: [],
-    createdAt: new Date().toISOString(),
-    updatedAt: new Date().toISOString(),
+    createdAt,
+    updatedAt: createdAt,
   }
 }

@@ -34,6 +34,7 @@ import {
 import { recordPlayerInteractionCompletion } from './player-interaction-timing.js'
 
 const CHAT_MESSAGE_LIMIT = 200
+const MINUTE_IN_MS = 60_000
 
 const pushLog = (
   state: PokerGameState,
@@ -98,6 +99,122 @@ const appendStreetLog = (state: PokerGameState) => {
       cards: community,
     },
   })
+}
+
+const eligiblePlayerCount = (state: PokerGameState) =>
+  state.players.filter((player) => player.chips > 0 && !player.eliminated)
+    .length
+
+const ensureAutomaticBlindIncreaseState = (
+  state: PokerGameState,
+  fallbackStartedAt: string,
+) => {
+  state.automaticBlindIncrease ??= {
+    timeWindowStartedAt: fallbackStartedAt,
+    handsSinceLastIncrease: 0,
+  }
+
+  if (
+    typeof state.automaticBlindIncrease.timeWindowStartedAt !== 'string' ||
+    Number.isNaN(Date.parse(state.automaticBlindIncrease.timeWindowStartedAt))
+  ) {
+    state.automaticBlindIncrease.timeWindowStartedAt = fallbackStartedAt
+  }
+
+  if (
+    typeof state.automaticBlindIncrease.handsSinceLastIncrease !== 'number' ||
+    !Number.isFinite(state.automaticBlindIncrease.handsSinceLastIncrease)
+  ) {
+    state.automaticBlindIncrease.handsSinceLastIncrease = 0
+  }
+
+  state.automaticBlindIncrease.handsSinceLastIncrease = Math.max(
+    0,
+    Math.floor(state.automaticBlindIncrease.handsSinceLastIncrease),
+  )
+
+  return state.automaticBlindIncrease
+}
+
+const increaseBlindConfig = (state: PokerGameState) => {
+  const amount = Math.max(
+    1,
+    Math.floor(state.config.automaticBlindIncreaseAmount),
+  )
+  const previousSmallBlind = state.config.smallBlind
+  const previousBigBlind = state.config.bigBlind
+
+  if (state.config.holdemLimitMode === 'fixedLimit') {
+    const nextSmallBet = previousSmallBlind + amount
+    state.config.smallBlind = Math.max(2, nextSmallBet + (nextSmallBet % 2))
+    state.config.bigBlind = state.config.smallBlind * 2
+  } else {
+    state.config.bigBlind = previousBigBlind + amount
+    state.config.smallBlind = Math.max(1, Math.floor(state.config.bigBlind / 2))
+  }
+
+  return {
+    amount,
+    previousSmallBlind,
+    previousBigBlind,
+    nextSmallBlind: state.config.smallBlind,
+    nextBigBlind: state.config.bigBlind,
+  }
+}
+
+const applyAutomaticBlindIncreaseForNextHand = (
+  state: PokerGameState,
+):
+  | {
+      amount: number
+      previousSmallBlind: number
+      previousBigBlind: number
+      nextSmallBlind: number
+      nextBigBlind: number
+    }
+  | null => {
+  const nextHandStartedAt = nowIso()
+  const tracker = ensureAutomaticBlindIncreaseState(state, nextHandStartedAt)
+
+  if (
+    !state.config.automaticBlindIncreaseEnabled ||
+    eligiblePlayerCount(state) < 2
+  ) {
+    return null
+  }
+
+  if (state.config.automaticBlindIncreaseMode === 'time') {
+    const elapsedMs =
+      Date.parse(nextHandStartedAt) - Date.parse(tracker.timeWindowStartedAt)
+    const intervalMs =
+      Math.max(1, Math.floor(state.config.automaticBlindIncreaseValue)) *
+      MINUTE_IN_MS
+
+    if (elapsedMs < intervalMs) {
+      return null
+    }
+
+    const result = increaseBlindConfig(state)
+    tracker.timeWindowStartedAt = nextHandStartedAt
+    tracker.handsSinceLastIncrease = 0
+    return result
+  }
+
+  const completedHandsSinceLastIncrease =
+    tracker.handsSinceLastIncrease + (state.currentRound ? 1 : 0)
+  const requiredHands =
+    Math.max(1, Math.floor(state.config.automaticBlindIncreaseValue)) *
+    eligiblePlayerCount(state)
+
+  if (completedHandsSinceLastIncrease < requiredHands) {
+    tracker.handsSinceLastIncrease = completedHandsSinceLastIncrease
+    return null
+  }
+
+  const result = increaseBlindConfig(state)
+  tracker.timeWindowStartedAt = nextHandStartedAt
+  tracker.handsSinceLastIncrease = 0
+  return result
 }
 
 const formatCardsParam = (cards: Card[]) =>
@@ -259,6 +376,25 @@ const appendHandStartLogs = (state: PokerGameState) => {
   })
 }
 
+const appendBlindIncreaseLog = (
+  state: PokerGameState,
+  increase: NonNullable<
+    ReturnType<typeof applyAutomaticBlindIncreaseForNextHand>
+  >,
+) => {
+  pushLog(state, {
+    type: 'system',
+    messageKey: 'game.blinds.increased',
+    messageParams: {
+      previousSmallBlind: increase.previousSmallBlind,
+      previousBigBlind: increase.previousBigBlind,
+      smallBlind: increase.nextSmallBlind,
+      bigBlind: increase.nextBigBlind,
+      amount: increase.amount,
+    },
+  })
+}
+
 const capturePreviousRoundRevealedCards = (state: PokerGameState) => {
   const round = state.currentRound
 
@@ -310,6 +446,10 @@ const buildInitialState = (
     lobbyCode: lobby.code,
     lobbyStatus: 'running',
     config: lobbyConfigToShared(lobby),
+    automaticBlindIncrease: {
+      timeWindowStartedAt: nowIso(),
+      handsSinceLastIncrease: 0,
+    },
     randomizerPoolSpecialCards: [],
     players,
     playerInteractionStats: players.map((player) => ({
@@ -629,6 +769,10 @@ export class GameService {
 
     resetForShowdownDelay(state)
     capturePreviousRoundRevealedCards(state)
+    const blindIncrease = applyAutomaticBlindIncreaseForNextHand(state)
+    if (blindIncrease) {
+      appendBlindIncreaseLog(state, blindIncrease)
+    }
     startNextHand(state)
 
     if (state.currentRound === null) {

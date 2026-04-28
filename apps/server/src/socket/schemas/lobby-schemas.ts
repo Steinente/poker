@@ -34,6 +34,10 @@ const pokerConfigPatchSchema = z.object({
   buyIn: z.number().int().min(1).optional(),
   smallBlind: z.number().int().min(1).optional(),
   bigBlind: z.number().int().min(1).optional(),
+  automaticBlindIncreaseEnabled: z.boolean().optional(),
+  automaticBlindIncreaseMode: z.enum(['time', 'dealerRounds']).optional(),
+  automaticBlindIncreaseValue: z.number().int().min(1).optional(),
+  automaticBlindIncreaseAmount: z.number().int().min(1).optional(),
 })
 
 export const createLobbySchema = z.object({
@@ -49,6 +53,14 @@ export const createLobbySchema = z.object({
       buyIn: pokerConfigPatchSchema.shape.buyIn,
       smallBlind: pokerConfigPatchSchema.shape.smallBlind,
       bigBlind: pokerConfigPatchSchema.shape.bigBlind,
+      automaticBlindIncreaseEnabled:
+        pokerConfigPatchSchema.shape.automaticBlindIncreaseEnabled,
+      automaticBlindIncreaseMode:
+        pokerConfigPatchSchema.shape.automaticBlindIncreaseMode,
+      automaticBlindIncreaseValue:
+        pokerConfigPatchSchema.shape.automaticBlindIncreaseValue,
+      automaticBlindIncreaseAmount:
+        pokerConfigPatchSchema.shape.automaticBlindIncreaseAmount,
       predictionVisibility: z.enum(['open', 'hidden', 'secret']).optional(),
       openPredictionRestriction: z
         .enum(['none', 'mustEqualTricks', 'mustNotEqualTricks'])
@@ -99,6 +111,14 @@ export const updateConfigSchema = z.object({
     buyIn: pokerConfigPatchSchema.shape.buyIn,
     smallBlind: pokerConfigPatchSchema.shape.smallBlind,
     bigBlind: pokerConfigPatchSchema.shape.bigBlind,
+    automaticBlindIncreaseEnabled:
+      pokerConfigPatchSchema.shape.automaticBlindIncreaseEnabled,
+    automaticBlindIncreaseMode:
+      pokerConfigPatchSchema.shape.automaticBlindIncreaseMode,
+    automaticBlindIncreaseValue:
+      pokerConfigPatchSchema.shape.automaticBlindIncreaseValue,
+    automaticBlindIncreaseAmount:
+      pokerConfigPatchSchema.shape.automaticBlindIncreaseAmount,
     predictionVisibility: z.enum(['open', 'hidden', 'secret']).optional(),
     openPredictionRestriction: z
       .enum(['none', 'mustEqualTricks', 'mustNotEqualTricks'])

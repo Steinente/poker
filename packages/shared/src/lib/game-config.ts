@@ -25,6 +25,14 @@ export const HOLDEM_LIMIT_MODES = ['noLimit', 'fixedLimit', 'potLimit'] as const
 
 export type HoldemLimitMode = (typeof HOLDEM_LIMIT_MODES)[number]
 
+export const AUTOMATIC_BLIND_INCREASE_MODES = [
+  'time',
+  'dealerRounds',
+] as const
+
+export type AutomaticBlindIncreaseMode =
+  (typeof AUTOMATIC_BLIND_INCREASE_MODES)[number]
+
 export interface GameConfig {
   gameType: 'poker'
   pokerVariant: PokerVariant
@@ -33,6 +41,10 @@ export interface GameConfig {
   buyIn: number
   smallBlind: number
   bigBlind: number
+  automaticBlindIncreaseEnabled: boolean
+  automaticBlindIncreaseMode: AutomaticBlindIncreaseMode
+  automaticBlindIncreaseValue: number
+  automaticBlindIncreaseAmount: number
   predictionVisibility?: PredictionVisibility
   openPredictionRestriction?: OpenPredictionRestriction
   cloudRuleTiming?: CloudRuleTiming

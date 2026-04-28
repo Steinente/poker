@@ -27,6 +27,13 @@ export const mapLobbyToSummary = (lobby: LobbyWithPlayers): LobbySummary => {
     buyIn: specialCardSettings.buyIn,
     smallBlind: specialCardSettings.smallBlind,
     bigBlind: specialCardSettings.bigBlind,
+    automaticBlindIncreaseEnabled:
+      specialCardSettings.automaticBlindIncreaseEnabled,
+    automaticBlindIncreaseMode: specialCardSettings.automaticBlindIncreaseMode,
+    automaticBlindIncreaseValue:
+      specialCardSettings.automaticBlindIncreaseValue,
+    automaticBlindIncreaseAmount:
+      specialCardSettings.automaticBlindIncreaseAmount,
     allowSpectatorChat: specialCardSettings.allowSpectatorChat,
     readLogEnabledByDefault: lobby.readLogEnabledByDefault,
     languageDefault: lobby.languageDefault === 'de' ? 'de' : 'en',

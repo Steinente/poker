@@ -35,18 +35,21 @@ export const de = {
   shareLobbyText: 'Tritt meiner Poker-Lobby {code} bei.',
   copied: 'Kopiert',
 
-  // Geraetewechsel
-  'deviceSwitch.button': 'Ger\u00e4t wechseln',
-  'deviceSwitch.title': 'Auf anderem Ger\u00e4t weiterspielen',
+  // Gerätewechsel
+  'deviceSwitch.button': 'Gerät wechseln',
+  'deviceSwitch.title': 'Auf anderem Gerät weiterspielen',
   'deviceSwitch.scanHint':
-    'Scanne den QR-Code oder kopiere den Link auf dem neuen Ger\u00e4t.',
-  'deviceSwitch.validFor': 'Link g\u00fcltig f\u00fcr',
-  'deviceSwitch.confirmTitle': 'Ger\u00e4tewechsel best\u00e4tigen',
+    'Scanne den QR-Code oder kopiere den Link auf dem neuen Gerät.',
+  'deviceSwitch.validFor': 'Link gültig für',
+  'deviceSwitch.confirmTitle': 'Gerätewechsel bestätigen',
   'deviceSwitch.confirmMessage':
-    'Ein anderes Ger\u00e4t m\u00f6chte diese Spielsession \u00fcbernehmen. Best\u00e4tige, um jetzt zu wechseln.',
+    'Ein anderes Gerät möchte diese Spielsession übernehmen. Bestätige, um jetzt zu wechseln.',
   'deviceSwitch.confirmAction': 'Jetzt wechseln',
-  'deviceSwitch.joinHint': 'Warte auf Best\u00e4tigung vom anderen Ger\u00e4t.',
-  'deviceSwitch.joinAction': 'Session \u00fcbernehmen',
+  'deviceSwitch.joinHint': 'Warte auf Bestätigung vom anderen Gerät.',
+  'deviceSwitch.joinAction': 'Session übernehmen',
+  'deviceSwitch.shareAction': 'Link teilen',
+  'deviceSwitch.shareText':
+    'Öffne diesen Link auf deinem anderen Gerät, um dein Spiel dort fortzusetzen.',
 
   // Lobby-Raum
   players: 'Spieler',
@@ -63,6 +66,7 @@ export const de = {
   closeLobby: 'Lobby schließen',
   confirmCloseLobby: 'Schließen bestätigen',
   cancel: 'Abbrechen',
+  close: 'Schließen',
 
   // Allgemein
   'common.conjunction.and': 'und',
@@ -130,14 +134,14 @@ export const de = {
   // Lokale Einstellungen und Barrierefreiheit
   soundVolumeLabel: 'Lautstärke (alle Sounds)',
   speechSpeedLabel: 'Vorlesegeschwindigkeit (TTS)',
-  panelSettingsLabel: 'Oberfl\u00e4che anpassen',
+  panelSettingsLabel: 'Oberfläche anpassen',
   logShowTimestamp: 'Zeitstempel im Protokoll anzeigen',
   readLogEnabled: 'Protokoll vorlesen aktiv',
   readLogDisabled: 'Protokoll vorlesen deaktiviert',
   bingEnabled: 'Zugbenachrichtigung aktiv',
   bingDisabled: 'Zugbenachrichtigung deaktiviert',
-  raiseSoundEnabled: 'M\u00fcnzger\u00e4usch bei Raise aktiv',
-  raiseSoundDisabled: 'M\u00fcnzger\u00e4usch bei Raise deaktiviert',
+  raiseSoundEnabled: 'Münzgeräusch bei Raise aktiv',
+  raiseSoundDisabled: 'Münzgeräusch bei Raise deaktiviert',
   chatSoundEnabled: 'Chat-Benachrichtigung aktiv',
   chatSoundDisabled: 'Chat-Benachrichtigung deaktiviert',
   raiseInputModeLabel: 'Erhöhen-Eingabe',
@@ -187,6 +191,15 @@ export const de = {
   smallBlindLabel: 'Small Blind',
   bigBlindLabel: 'Big Blind',
   officialRules: 'Offizielle Regeln',
+  automaticBlindIncreaseLabel: 'Automatische Blind-Erhöhung',
+  automaticBlindIncreaseEnabled: 'Aktiv',
+  automaticBlindIncreaseModeLabel: 'Modus der Blind-Erhöhung',
+  'automaticBlindIncreaseMode.time': 'Nach x Minuten',
+  'automaticBlindIncreaseMode.dealerRounds': 'Nach x Dealer-Runden',
+  automaticBlindIncreaseValueTimeLabel: 'Minuten bis zur Blind-Erhöhung',
+  automaticBlindIncreaseValueDealerRoundsLabel:
+    'Dealer-Runden bis zur Blind-Erhöhung',
+  automaticBlindIncreaseAmountLabel: 'Big Blind erhöhen um',
   closePopup: 'Popup schließen',
   enabled: 'An',
 
@@ -209,6 +222,8 @@ export const de = {
   'log.game.hand.started': 'Neue Handkarten wurden ausgeteilt',
   'log.game.hand.blindsPosted':
     'Blinds gesetzt: {smallBlindPlayerName} ({smallBlind}) / {bigBlindPlayerName} ({bigBlind})',
+  'log.game.blinds.increased':
+    'Blinds erhöht: SB {previousSmallBlind} -> {smallBlind}, BB {previousBigBlind} -> {bigBlind} (BB +{amount})',
   'log.game.street.preflop': 'Preflop',
   'log.game.street.flop': 'Flop: {cards}',
   'log.game.street.turn': 'Turn: {cards}',
@@ -238,29 +253,29 @@ export const de = {
   'info.leftLobby': 'Du hast die Lobby verlassen',
   'info.lobbyEndedByHost': 'Die Lobby wurde vom Host beendet',
   'info.deviceSwitchDisconnected':
-    'Dieses Ger\u00e4t wurde getrennt, weil das Spiel auf einem anderen Ger\u00e4t fortgesetzt wurde.',
+    'Dieses Gerät wurde getrennt, weil das Spiel auf einem anderen Gerät fortgesetzt wurde.',
   'info.deviceSwitchSuperseded':
-    'Ein anderes Ger\u00e4t hat den Wechsel-Link zuletzt aufgerufen und die Session \u00fcbernommen.',
+    'Ein anderes Gerät hat den Wechsel-Link zuletzt aufgerufen und die Session übernommen.',
   'info.lobbyClosedDueToHostTimeout':
     'Die Lobby wurde geschlossen, weil der Host sich nicht rechtzeitig wieder verbunden hat',
   'info.lobbyClosedDueToInactivity':
     'Die Lobby wurde nach 30 Minuten Inaktivität geschlossen',
   'error.lobbyNotFound': 'Lobby nicht gefunden',
-  'error.deviceSwitchFailed': 'Ger\u00e4tewechsel fehlgeschlagen',
-  'error.deviceSwitchInvalidToken': 'Der Wechsel-Link ist ung\u00fcltig.',
+  'error.deviceSwitchFailed': 'Gerätewechsel fehlgeschlagen',
+  'error.deviceSwitchInvalidToken': 'Der Wechsel-Link ist ungültig.',
   'error.deviceSwitchExpired': 'Der Wechsel-Link ist abgelaufen.',
   'error.deviceSwitchAlreadyUsed':
     'Dieser Wechsel-Link wurde bereits verwendet.',
   'error.deviceSwitchSourceUnavailable':
-    'Das urspr\u00fcngliche Ger\u00e4t ist nicht verbunden. \u00d6ffne dort zuerst das Spiel.',
+    'Das ursprüngliche Gerät ist nicht verbunden. Öffne dort zuerst das Spiel.',
   'error.deviceSwitchNotPending':
-    'Keine ausstehende Ger\u00e4tewechsel-Best\u00e4tigung gefunden.',
+    'Keine ausstehende Gerätewechsel-Bestätigung gefunden.',
   'error.deviceSwitchMismatch':
-    'Die Daten zur Ger\u00e4tewechsel-Best\u00e4tigung passen nicht zusammen.',
+    'Die Daten zur Gerätewechsel-Bestätigung passen nicht zusammen.',
   'error.deviceSwitchTargetUnavailable':
-    'Das Zielger\u00e4t ist nicht mehr verbunden.',
+    'Das Zielgerät ist nicht mehr verbunden.',
   'error.deviceSwitchNotPrepared':
-    'Der Ger\u00e4tewechsel-Token ist noch nicht vorbereitet.',
+    'Der Gerätewechsel-Token ist noch nicht vorbereitet.',
   lobbyNotFoundRedirect:
     'Lobby {code} wurde nicht gefunden. Du wurdest zur Startseite weitergeleitet.',
   'error.lobbyNotAccepting': 'Diese Lobby nimmt keine Spieler mehr an',

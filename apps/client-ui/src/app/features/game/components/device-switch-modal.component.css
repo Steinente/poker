@@ -35,7 +35,7 @@
 .device-switch-qr {
   width: min(256px, 70vw);
   height: min(256px, 70vw);
-  border-radius: 8px;
+  border-radius: 10px;
   border: 1px solid rgb(148 163 184 / 0.32);
   background: #fff;
   padding: 8px;
@@ -67,17 +67,28 @@
 }
 
 .device-switch-link-row {
+  display: block;
+}
+
+.device-switch-link-row .input {
+  width: 100%;
+}
+
+.device-switch-actions {
   display: grid;
-  grid-template-columns: 1fr auto;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 8px;
 }
 
 .device-switch-footer {
-  text-align: right;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
 }
 
 @media (max-width: 720px) {
-  .device-switch-link-row {
+  .device-switch-actions {
     grid-template-columns: 1fr;
   }
 }

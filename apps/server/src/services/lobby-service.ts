@@ -385,6 +385,12 @@ export class LobbyService {
           buyIn: mergedConfig.buyIn,
           smallBlind: mergedConfig.smallBlind,
           bigBlind: mergedConfig.bigBlind,
+          automaticBlindIncreaseEnabled:
+            mergedConfig.automaticBlindIncreaseEnabled,
+          automaticBlindIncreaseMode: mergedConfig.automaticBlindIncreaseMode,
+          automaticBlindIncreaseValue: mergedConfig.automaticBlindIncreaseValue,
+          automaticBlindIncreaseAmount:
+            mergedConfig.automaticBlindIncreaseAmount,
         }),
         players: {
           create: {
@@ -764,6 +770,10 @@ export class LobbyService {
           typeof input.config.buyIn === 'number' ||
           typeof input.config.smallBlind === 'number' ||
           typeof input.config.bigBlind === 'number' ||
+          typeof input.config.automaticBlindIncreaseEnabled === 'boolean' ||
+          input.config.automaticBlindIncreaseMode !== undefined ||
+          typeof input.config.automaticBlindIncreaseValue === 'number' ||
+          typeof input.config.automaticBlindIncreaseAmount === 'number' ||
           input.config.holdemLimitMode !== undefined ||
           input.config.gameType === 'poker' ||
           input.config.pokerVariant === 'texasHoldem'
@@ -784,6 +794,18 @@ export class LobbyService {
                   previousSpecialCardSettings.smallBlind,
                 bigBlind:
                   input.config.bigBlind ?? previousSpecialCardSettings.bigBlind,
+                automaticBlindIncreaseEnabled:
+                  input.config.automaticBlindIncreaseEnabled ??
+                  previousSpecialCardSettings.automaticBlindIncreaseEnabled,
+                automaticBlindIncreaseMode:
+                  input.config.automaticBlindIncreaseMode ??
+                  previousSpecialCardSettings.automaticBlindIncreaseMode,
+                automaticBlindIncreaseValue:
+                  input.config.automaticBlindIncreaseValue ??
+                  previousSpecialCardSettings.automaticBlindIncreaseValue,
+                automaticBlindIncreaseAmount:
+                  input.config.automaticBlindIncreaseAmount ??
+                  previousSpecialCardSettings.automaticBlindIncreaseAmount,
               })
             : undefined,
       },
