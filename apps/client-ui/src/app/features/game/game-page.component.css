@@ -10,8 +10,8 @@
   display: grid;
   grid-template-columns: 320px minmax(0, 1fr) 320px;
   grid-template-areas:
-    'settings table log'
-    'players actions previous'
+    'settings table previous'
+    'players actions log'
     'chat chat chat';
   gap: 16px;
   margin-top: 16px;
@@ -126,8 +126,8 @@
       'players'
       'table'
       'actions'
-      'log'
       'previous'
+      'log'
       'chat';
   }
 }
