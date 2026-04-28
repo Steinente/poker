@@ -136,6 +136,8 @@ export const de = {
   readLogDisabled: 'Protokoll vorlesen deaktiviert',
   bingEnabled: 'Zugbenachrichtigung aktiv',
   bingDisabled: 'Zugbenachrichtigung deaktiviert',
+  raiseSoundEnabled: 'M\u00fcnzger\u00e4usch bei Raise aktiv',
+  raiseSoundDisabled: 'M\u00fcnzger\u00e4usch bei Raise deaktiviert',
   chatSoundEnabled: 'Chat-Benachrichtigung aktiv',
   chatSoundDisabled: 'Chat-Benachrichtigung deaktiviert',
   raiseInputModeLabel: 'Erhöhen-Eingabe',

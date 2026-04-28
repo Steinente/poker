@@ -181,6 +181,7 @@ export class GameFacadeService {
       }
 
       this.notifySelfInteraction(payload.state)
+      this.notifyRaiseSound(payload.state)
       this.announceNewLogs(payload.state)
       this.notifyIncomingChatMessage(payload.state)
       this.router.navigateByUrl(`/game/${payload.state.lobbyCode}`)
@@ -551,7 +552,10 @@ export class GameFacadeService {
 
     this.lastInteractionPromptKey = interactionKey
 
-    if (this.session.bingEnabled()) {
+    const raiseSoundWillPlay =
+      this.session.raiseSoundEnabled() && this.hasUnseenRaiseAction(state)
+
+    if (this.session.bingEnabled() && !raiseSoundWillPlay) {
       this.audio.turnPing()
     }
   }
@@ -596,6 +600,31 @@ export class GameFacadeService {
     }
 
     this.updateLogCursor(state)
+  }
+
+  private notifyRaiseSound(state: PokerGameViewState) {
+    if (!this.session.raiseSoundEnabled()) {
+      return
+    }
+
+    if (this.hasUnseenRaiseAction(state)) {
+      this.audio.coinPing()
+    }
+  }
+
+  private hasUnseenRaiseAction(state: PokerGameViewState) {
+    const unseenEntries = this.unseenEntries(
+      state.logs,
+      this.lastLogCursorLobbyCode,
+      this.lastAnnouncedLogId,
+      state.lobbyCode,
+    )
+
+    return unseenEntries.some(
+      (entry) =>
+        entry.messageKey === 'game.action.raise' ||
+        entry.messageKey === 'game.action.reraise',
+    )
   }
 
   private notifyIncomingChatMessage(state: PokerGameViewState) {

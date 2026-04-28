@@ -105,6 +105,23 @@ import type { RaiseInputMode } from '../../../core/services/session.service'
         <label class="row">
           <input
             type="checkbox"
+            [ngModel]="raiseSoundEnabled"
+            (ngModelChange)="toggleRaiseSound($event)"
+          />
+          <span>
+            {{
+              raiseSoundEnabled
+                ? ('raiseSoundEnabled' | t)
+                : ('raiseSoundDisabled' | t)
+            }}
+          </span>
+        </label>
+      </div>
+
+      <div class="row" style="margin-top: 8px;">
+        <label class="row">
+          <input
+            type="checkbox"
             [ngModel]="chatSoundEnabled"
             (ngModelChange)="toggleChatSound($event)"
           />
@@ -224,11 +241,13 @@ export class GameSettingsPanelComponent {
   @Input({ required: true }) audioVolume = 1
   @Input({ required: true }) audioSpeed = 1
   @Input({ required: true }) bingEnabled = true
+  @Input({ required: true }) raiseSoundEnabled = true
   @Input({ required: true }) chatSoundEnabled = true
   @Input({ required: true }) spectatorChatAllowed = true
   @Input({ required: true }) isHost = false
   @Input({ required: true }) onToggleAudio!: (enabled: boolean) => void
   @Input({ required: true }) onBingToggle!: (enabled: boolean) => void
+  @Input({ required: true }) onRaiseSoundToggle!: (enabled: boolean) => void
   @Input({ required: true }) onChatSoundToggle!: (enabled: boolean) => void
   @Input({ required: true }) onSpectatorChatToggle!: (enabled: boolean) => void
   @Input({ required: true }) onAudioVolumeChange!: (volume: number) => void
@@ -249,6 +268,10 @@ export class GameSettingsPanelComponent {
 
   toggleBing(enabled: boolean) {
     this.onBingToggle(enabled)
+  }
+
+  toggleRaiseSound(enabled: boolean) {
+    this.onRaiseSoundToggle(enabled)
   }
 
   toggleChatSound(enabled: boolean) {

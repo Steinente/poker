@@ -136,6 +136,8 @@ export const en = {
   readLogDisabled: 'Log reading disabled',
   bingEnabled: 'Turn notification sound enabled',
   bingDisabled: 'Turn notification sound disabled',
+  raiseSoundEnabled: 'Raise coin sound enabled',
+  raiseSoundDisabled: 'Raise coin sound disabled',
   chatSoundEnabled: 'Chat notification sound enabled',
   chatSoundDisabled: 'Chat notification sound disabled',
   raiseInputModeLabel: 'Raise input mode',

@@ -153,6 +153,9 @@ export class GamePageComponent {
   readonly speechVolumeSignal = computed(() => this.session.speechVolume())
   readonly speechSpeedSignal = computed(() => this.session.speechRate())
   readonly bingEnabledSignal = computed(() => this.session.bingEnabled())
+  readonly raiseSoundEnabledSignal = computed(() =>
+    this.session.raiseSoundEnabled(),
+  )
   readonly panelSettingsVisibleSignal = computed(() =>
     this.session.panelSettingsVisible(),
   )
@@ -287,6 +290,8 @@ export class GamePageComponent {
     this.actions.toggleAudio(enabled)
   readonly toggleBingFn = (enabled: boolean) =>
     this.session.setBingEnabled(enabled)
+  readonly setRaiseSoundEnabledFn = (enabled: boolean) =>
+    this.session.setRaiseSoundEnabled(enabled)
   readonly setChatSoundEnabledFn = (enabled: boolean) =>
     this.session.setChatSoundEnabled(enabled)
   readonly setSpeechVolumeFn = (volume: number) =>

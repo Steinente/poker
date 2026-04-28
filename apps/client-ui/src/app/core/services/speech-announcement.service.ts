@@ -100,6 +100,26 @@ export class SpeechAnnouncementService {
     })
   }
 
+  coinPing() {
+    if (!this.audioContextUnlocked) {
+      return
+    }
+
+    const ctx = this.ensureAudioContext()
+
+    if (!ctx) {
+      return
+    }
+
+    void ctx.resume().then(() => {
+      if (ctx.state !== 'running') {
+        return
+      }
+
+      this.playCoinPingTone(ctx)
+    })
+  }
+
   unlock() {
     this.unlockAudioContext()
 
@@ -250,6 +270,107 @@ export class SpeechAnnouncementService {
     oscillator.onended = () => {
       oscillator.disconnect()
       gain.disconnect()
+    }
+  }
+
+  private playCoinPingTone(ctx: AudioContext) {
+    const masterGain = ctx.createGain()
+    masterGain.connect(ctx.destination)
+
+    const startGain = Math.max(0.001, 0.38 * this.speechVolume)
+    masterGain.gain.setValueAtTime(startGain, ctx.currentTime)
+    masterGain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.58)
+
+    const clackBuffer = ctx.createBuffer(
+      1,
+      Math.floor(ctx.sampleRate * 0.055),
+      ctx.sampleRate,
+    )
+    const clackData = clackBuffer.getChannelData(0)
+    for (let index = 0; index < clackData.length; index += 1) {
+      const decay = 1 - index / clackData.length
+      clackData[index] = (Math.random() * 2 - 1) * decay * decay
+    }
+
+    const clack = ctx.createBufferSource()
+    const clackFilter = ctx.createBiquadFilter()
+    const clackGain = ctx.createGain()
+    clack.buffer = clackBuffer
+    clackFilter.type = 'bandpass'
+    clackFilter.frequency.setValueAtTime(1850, ctx.currentTime)
+    clackFilter.Q.setValueAtTime(7, ctx.currentTime)
+    clackGain.gain.setValueAtTime(0.75, ctx.currentTime)
+    clackGain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.07)
+    clack.connect(clackFilter)
+    clackFilter.connect(clackGain)
+    clackGain.connect(masterGain)
+    clack.start(ctx.currentTime)
+    clack.stop(ctx.currentTime + 0.07)
+
+    const partials = [
+      {
+        frequency: 880,
+        endFrequency: 1320,
+        delay: 0.055,
+        duration: 0.1,
+        gain: 0.52,
+      },
+      {
+        frequency: 1560,
+        endFrequency: 2320,
+        delay: 0.13,
+        duration: 0.26,
+        gain: 0.78,
+      },
+      {
+        frequency: 2360,
+        endFrequency: 1820,
+        delay: 0.16,
+        duration: 0.34,
+        gain: 0.44,
+      },
+      {
+        frequency: 3120,
+        endFrequency: 2540,
+        delay: 0.19,
+        duration: 0.28,
+        gain: 0.24,
+      },
+    ]
+
+    const nodes = partials.map((partial) => {
+      const oscillator = ctx.createOscillator()
+      const gain = ctx.createGain()
+      const start = ctx.currentTime + partial.delay
+      const end = start + partial.duration
+
+      oscillator.type = partial.delay < 0.1 ? 'triangle' : 'sine'
+      oscillator.frequency.setValueAtTime(partial.frequency, start)
+      oscillator.frequency.exponentialRampToValueAtTime(
+        partial.endFrequency,
+        end,
+      )
+
+      gain.gain.setValueAtTime(Math.max(0.001, partial.gain), start)
+      gain.gain.exponentialRampToValueAtTime(0.001, end)
+
+      oscillator.connect(gain)
+      gain.connect(masterGain)
+      oscillator.start(start)
+      oscillator.stop(end)
+
+      return { oscillator, gain }
+    })
+
+    nodes.at(-1)!.oscillator.onended = () => {
+      clack.disconnect()
+      clackFilter.disconnect()
+      clackGain.disconnect()
+      for (const node of nodes) {
+        node.oscillator.disconnect()
+        node.gain.disconnect()
+      }
+      masterGain.disconnect()
     }
   }
 

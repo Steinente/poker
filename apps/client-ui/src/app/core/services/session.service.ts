@@ -5,6 +5,7 @@ import {
   SPEECH_RATE_KEY,
   SPEECH_VOLUME_KEY,
   BING_ENABLED_KEY,
+  RAISE_SOUND_ENABLED_KEY,
   LAST_LOBBY_CODE_KEY,
   LOBBY_CONFIG_KEY,
   PLAYER_NAME_KEY,
@@ -70,6 +71,7 @@ export class SessionService {
   private readonly speechVolumeSignal = signal(1)
   private readonly speechRateSignal = signal(1)
   private readonly bingEnabledSignal = signal(true)
+  private readonly raiseSoundEnabledSignal = signal(true)
   private readonly hasReadLogPreferenceSignal = signal(false)
   private readonly lobbyConfigSignal = signal<GameConfig | null>(null)
   private readonly panelSettingsVisibleSignal = signal(true)
@@ -92,6 +94,7 @@ export class SessionService {
   readonly speechVolume = computed(() => this.speechVolumeSignal())
   readonly speechRate = computed(() => this.speechRateSignal())
   readonly bingEnabled = computed(() => this.bingEnabledSignal())
+  readonly raiseSoundEnabled = computed(() => this.raiseSoundEnabledSignal())
   readonly hasReadLogPreference = computed(() =>
     this.hasReadLogPreferenceSignal(),
   )
@@ -152,6 +155,9 @@ export class SessionService {
 
     const storedBingEnabled = this.storage.get(BING_ENABLED_KEY)
     this.bingEnabledSignal.set(storedBingEnabled !== 'false')
+
+    const storedRaiseSoundEnabled = this.storage.get(RAISE_SOUND_ENABLED_KEY)
+    this.raiseSoundEnabledSignal.set(storedRaiseSoundEnabled !== 'false')
 
     const storedPanelSettings = this.storage.get(PANEL_SETTINGS_VISIBLE_KEY)
     this.panelSettingsVisibleSignal.set(storedPanelSettings !== 'false')
@@ -248,6 +254,11 @@ export class SessionService {
   setBingEnabled(enabled: boolean) {
     this.bingEnabledSignal.set(enabled)
     this.storage.set(BING_ENABLED_KEY, String(enabled))
+  }
+
+  setRaiseSoundEnabled(enabled: boolean) {
+    this.raiseSoundEnabledSignal.set(enabled)
+    this.storage.set(RAISE_SOUND_ENABLED_KEY, String(enabled))
   }
 
   setPanelSettingsVisible(visible: boolean) {
