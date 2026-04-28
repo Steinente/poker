@@ -17,7 +17,8 @@ import { TPipe } from '../../../shared/pipes/t.pipe'
           <div
             class="player-row"
             [class.player-row-active]="isActive(player.playerId)"
-            [class.player-row-self]="player.playerId === state.selfPlayerId"
+            [class.player-row-eliminated]="player.eliminated"
+            [class.player-row-folded]="isFoldedInRound(player.playerId)"
           >
             <div class="player-row-top">
               <strong>
@@ -69,14 +70,16 @@ import { TPipe } from '../../../shared/pipes/t.pipe'
                 <span
                   >{{ 'game.playerTotal' | t }} {{ rp.totalCommitted }}</span
                 >
-                @if (rp.folded) {
+                @if (rp.folded && !player.eliminated) {
                   <span class="tag-fold">{{ 'game.playerFolded' | t }}</span>
                 }
                 @if (rp.isAllIn) {
                   <span class="tag-allin">{{ 'game.playerAllIn' | t }}</span>
                 }
-                @if (rp.lastAction) {
-                  <span>{{ actionLabel(rp.lastAction.type) }}</span>
+                @if (visibleLastActionType(rp); as actionType) {
+                  <span [class]="actionClass(actionType)">{{
+                    actionLabel(actionType)
+                  }}</span>
                 }
               </div>
             }
@@ -98,8 +101,13 @@ import { TPipe } from '../../../shared/pipes/t.pipe'
         background: rgb(15 23 42 / 0.42);
       }
 
-      .player-row-self {
-        box-shadow: inset 0 0 0 1px rgb(212 167 44 / 0.35);
+      .player-row-eliminated {
+        opacity: 0.48;
+        filter: grayscale(0.75);
+      }
+
+      .player-row-folded {
+        border-color: #ef4444;
       }
 
       .player-row-active {
@@ -147,6 +155,16 @@ import { TPipe } from '../../../shared/pipes/t.pipe'
         color: #f59e0b;
         font-weight: 600;
       }
+
+      .tag-check {
+        color: #22c55e;
+        font-weight: 600;
+      }
+
+      .tag-raise {
+        color: #60a5fa;
+        font-weight: 600;
+      }
     `,
   ],
 })
@@ -185,6 +203,32 @@ export class PlayerListPanelComponent {
 
   isBigBlind(playerId: string) {
     return this.state.currentRound?.bigBlindPlayerId === playerId
+  }
+
+  isFoldedInRound(playerId: string) {
+    const player = this.state.players.find((entry) => entry.playerId === playerId)
+    const roundPlayer = this.roundPlayer(playerId)
+
+    return !!roundPlayer?.folded && !player?.eliminated
+  }
+
+  visibleLastActionType(
+    roundPlayer: NonNullable<PokerGameViewState['currentRound']>['players'][number],
+  ) {
+    const action = roundPlayer.lastAction?.type
+    return action && action !== 'fold' && action !== 'allIn' ? action : null
+  }
+
+  actionClass(action: string): string {
+    if (action === 'check' || action === 'call') {
+      return 'tag-check'
+    }
+
+    if (action === 'raise' || action === 'reraise') {
+      return 'tag-raise'
+    }
+
+    return ''
   }
 
   actionLabel(action: string): string {
