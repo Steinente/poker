@@ -106,6 +106,10 @@ import { TPipe } from '../../../shared/pipes/t.pipe'
 
         .panel-settings-toggle {
           width: 100%;
+          height: auto;
+          min-height: 40px;
+          padding-top: 10px;
+          padding-bottom: 10px;
           justify-content: center;
         }
 

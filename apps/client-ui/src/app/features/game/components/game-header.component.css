@@ -158,6 +158,10 @@
   .header-home-btn {
     order: 1;
     width: 100%;
+    height: auto;
+    min-height: 40px;
+    padding-top: 10px;
+    padding-bottom: 10px;
     text-align: center;
   }
 
