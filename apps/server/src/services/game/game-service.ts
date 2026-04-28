@@ -165,6 +165,29 @@ const appendHoleCardsSummaryLog = (state: PokerGameState) => {
 
 const appendShowdownLog = (state: PokerGameState) => {
   const round = state.currentRound
+  const winnerNames = state.winnerPlayerIds
+    .map(
+      (playerId) =>
+        state.players.find((entry) => entry.playerId === playerId)?.name ??
+        playerId,
+    )
+    .join(', ')
+  const isUncontested =
+    !!round &&
+    round.players.filter((player) => player.hand.length > 0 && !player.folded)
+      .length === 1
+
+  if (isUncontested) {
+    pushLog(state, {
+      type: 'showdown',
+      messageKey: 'game.showdown.uncontested',
+      messageParams: {
+        winnerNames,
+      },
+    })
+    return
+  }
+
   const winnerHandRanks = new Map<string, string>()
 
   if (round) {
@@ -185,13 +208,7 @@ const appendShowdownLog = (state: PokerGameState) => {
     type: 'showdown',
     messageKey: 'game.showdown.resolved',
     messageParams: {
-      winnerNames: state.winnerPlayerIds
-        .map(
-          (playerId) =>
-            state.players.find((entry) => entry.playerId === playerId)?.name ??
-            playerId,
-        )
-        .join(', '),
+      winnerNames,
       winnerSummary: winnerSummaries.join(' | '),
     },
   })

@@ -225,6 +225,7 @@ export const de = {
   'log.game.action.postBigBlind': '{playerId} setzt Big Blind ({amount})',
   'log.game.showdown.holeCards': 'Handkarten im Showdown:<br>{hands}',
   'log.game.showdown.resolved': '{winnerSummary}',
+  'log.game.showdown.uncontested': '{winnerNames} gewinnt',
   'log.game.finished': 'Spiel beendet',
 
   // Tabellen-Header

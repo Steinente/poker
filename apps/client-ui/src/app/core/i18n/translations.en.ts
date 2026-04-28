@@ -225,6 +225,7 @@ export const en = {
   'log.game.action.postBigBlind': '{playerId} posts big blind ({amount})',
   'log.game.showdown.holeCards': 'Showdown hole cards:<br>{hands}',
   'log.game.showdown.resolved': '{winnerSummary}',
+  'log.game.showdown.uncontested': '{winnerNames} wins',
   'log.game.finished': 'Game over',
 
   // Table header
