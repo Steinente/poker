@@ -1,9 +1,11 @@
-import { Component, Input } from '@angular/core'
+import { Component, Input, inject } from '@angular/core'
 import type {
   Card,
   GamePlayerViewMeta,
   PreviousRoundRevealedCards,
 } from '@poker/shared'
+import type { TranslationKey } from '../../../core/i18n/translations'
+import { I18nService } from '../../../core/i18n/i18n.service'
 import { CardComponent } from '../../../shared/components/card.component'
 import { TPipe } from '../../../shared/pipes/t.pipe'
 
@@ -33,6 +35,11 @@ import { TPipe } from '../../../shared/pipes/t.pipe'
                 />
               }
             </div>
+            <ul class="previous-round-reader-list">
+              @for (card of previousRound.communityCards; track card.id) {
+                <li>{{ cardScreenReaderLabel(card) }}</li>
+              }
+            </ul>
           } @else {
             <div class="muted">{{ 'game.previousRound.noBoardCards' | t }}</div>
           }
@@ -62,6 +69,11 @@ import { TPipe } from '../../../shared/pipes/t.pipe'
                       />
                     }
                   </div>
+                  <ul class="previous-round-reader-list">
+                    @for (card of revealedCards.cards; track card.id) {
+                      <li>{{ cardScreenReaderLabel(card) }}</li>
+                    }
+                  </ul>
                 </div>
               }
             </div>
@@ -115,6 +127,19 @@ import { TPipe } from '../../../shared/pipes/t.pipe'
         justify-content: flex-start;
       }
 
+      .previous-round-reader-list {
+        border: 0;
+        clip: rect(0 0 0 0);
+        clip-path: inset(50%);
+        height: 1px;
+        margin: -1px;
+        overflow: hidden;
+        padding: 0;
+        position: absolute;
+        white-space: nowrap;
+        width: 1px;
+      }
+
       poker-card.previous-round-card {
         flex: 0 0 min(76px, calc((100% - 24px) / 5));
         width: min(76px, calc((100% - 24px) / 5));
@@ -154,6 +179,8 @@ import { TPipe } from '../../../shared/pipes/t.pipe'
   ],
 })
 export class PreviousRoundCardsPanelComponent {
+  private readonly i18n = inject(I18nService)
+
   @Input() previousRound: PreviousRoundRevealedCards | null = null
   @Input() players: GamePlayerViewMeta[] = []
 
@@ -164,5 +191,15 @@ export class PreviousRoundCardsPanelComponent {
       this.players.find((player) => player.playerId === playerId)?.name ??
       playerId
     )
+  }
+
+  cardScreenReaderLabel(card: Card) {
+    if (card.type === 'number') {
+      return `${this.i18n.t(`suit.${card.suit}` as TranslationKey)} ${this.i18n.t(
+        `card.value.${card.value}` as TranslationKey,
+      )}`
+    }
+
+    return ''
   }
 }
