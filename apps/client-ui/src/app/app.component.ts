@@ -16,19 +16,19 @@ import { TPipe } from './shared/pipes/t.pipe'
     <div class="app-shell">
       @if (pwaUpdate.isOffline()) {
         <div class="app-status-banner app-status-banner-offline">
-          <span>{{ 'pwaOfflineMessage' | t }}</span>
+          <span>{{ 'pwa.offlineMessage' | t }}</span>
         </div>
       }
 
       @if (pwaUpdate.updateAvailable()) {
         <div class="app-status-banner app-status-banner-update">
-          <span>{{ 'pwaUpdateMessage' | t }}</span>
+          <span>{{ 'pwa.updateMessage' | t }}</span>
           <button
             type="button"
             class="btn btn-primary"
             (click)="activateUpdate()"
           >
-            {{ 'pwaUpdateAction' | t }}
+            {{ 'pwa.updateAction' | t }}
           </button>
         </div>
       }

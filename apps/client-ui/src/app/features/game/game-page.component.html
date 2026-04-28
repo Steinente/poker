@@ -1,6 +1,6 @@
 <div class="page-shell">
   @if (!gameState()) {
-    <div class="panel">{{ 'waitingForPlayers' | t }}</div>
+    <div class="panel">{{ 'game.waitingForPlayers' | t }}</div>
   } @else if (gameState(); as state) {
     <div class="game-top">
       <poker-game-header
@@ -136,7 +136,7 @@
             />
           } @else {
             <div class="panel spectator-panel">
-              <div class="muted">{{ 'spectatorMode' | t }}</div>
+              <div class="muted">{{ 'spectator.mode' | t }}</div>
             </div>
           }
         </div>

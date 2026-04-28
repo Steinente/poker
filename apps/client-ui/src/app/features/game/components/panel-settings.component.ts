@@ -15,7 +15,7 @@ import { TPipe } from '../../../shared/pipes/t.pipe'
         [attr.aria-expanded]="isOpen"
         aria-controls="panel-settings-content"
       >
-        {{ 'panelSettingsLabel' | t }}
+        {{ 'panel.settings.label' | t }}
       </button>
 
       @if (isOpen) {
@@ -23,7 +23,7 @@ import { TPipe } from '../../../shared/pipes/t.pipe'
           id="panel-settings-content"
           class="panel panel-settings-content"
           role="group"
-          [attr.aria-label]="'panelSettingsLabel' | t"
+          [attr.aria-label]="'panel.settings.label' | t"
         >
           <label class="row">
             <input
@@ -31,7 +31,7 @@ import { TPipe } from '../../../shared/pipes/t.pipe'
               [ngModel]="settingsVisible"
               (ngModelChange)="settingsChange.emit($event)"
             />
-            <span>{{ 'settings' | t }}</span>
+            <span>{{ 'settings.title' | t }}</span>
           </label>
 
           <label class="row" style="margin-top: 8px;">
@@ -40,7 +40,7 @@ import { TPipe } from '../../../shared/pipes/t.pipe'
               [ngModel]="playersVisible"
               (ngModelChange)="playersChange.emit($event)"
             />
-            <span>{{ 'players' | t }}</span>
+            <span>{{ 'player.plural' | t }}</span>
           </label>
 
           <label class="row" style="margin-top: 8px;">
@@ -49,7 +49,7 @@ import { TPipe } from '../../../shared/pipes/t.pipe'
               [ngModel]="logVisible"
               (ngModelChange)="logChange.emit($event)"
             />
-            <span>{{ 'logs' | t }}</span>
+            <span>{{ 'panel.logs' | t }}</span>
           </label>
 
           <label class="row" style="margin-top: 8px;">
@@ -58,7 +58,7 @@ import { TPipe } from '../../../shared/pipes/t.pipe'
               [ngModel]="previousVisible"
               (ngModelChange)="previousChange.emit($event)"
             />
-            <span>{{ 'previousRoundCards' | t }}</span>
+            <span>{{ 'panel.previousRound' | t }}</span>
           </label>
 
           <label class="row" style="margin-top: 8px;">
@@ -67,7 +67,7 @@ import { TPipe } from '../../../shared/pipes/t.pipe'
               [ngModel]="chatVisible"
               (ngModelChange)="chatChange.emit($event)"
             />
-            <span>{{ 'chat' | t }}</span>
+            <span>{{ 'panel.chat' | t }}</span>
           </label>
         </div>
       }

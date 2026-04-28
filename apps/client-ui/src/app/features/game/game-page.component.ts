@@ -132,14 +132,14 @@ export class GamePageComponent {
     return true
   })
   readonly isHostSignal = computed(() => this.selfPlayer()?.isHost ?? false)
-  readonly selfRoleSignal = computed<'host' | 'player' | 'spectator'>(() => {
+  readonly selfRoleSignal = computed<'player.host' | 'player' | 'spectator'>(() => {
     const selfPlayer = this.selfPlayer()
 
     if (!selfPlayer) {
       return this.gameState() ? 'spectator' : 'player'
     }
 
-    return selfPlayer.isHost ? 'host' : 'player'
+    return selfPlayer.isHost ? 'player.host' : 'player'
   })
   readonly spectatorChatAllowedSignal = computed(
     () =>

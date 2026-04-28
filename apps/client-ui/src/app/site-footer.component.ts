@@ -9,15 +9,15 @@ import { TPipe } from './shared/pipes/t.pipe'
   standalone: true,
   imports: [TPipe],
   template: `
-    <footer class="site-legal" [attr.aria-label]="'legalFooterLabel' | t">
+    <footer class="site-legal" [attr.aria-label]="'legal.footerLabel' | t">
       <div class="site-legal-inner">
         <div class="site-rules">
           @if (rulesOpen()) {
             <div class="site-rules-popover">
-              <h4 class="site-rules-title">{{ 'rulesPopoverTitle' | t }}</h4>
+              <h4 class="site-rules-title">{{ 'rules.popoverTitle' | t }}</h4>
 
               @if (rulesLoading()) {
-                <p class="site-rules-loading">{{ 'loading' | t }}...</p>
+                <p class="site-rules-loading">{{ 'common.loading' | t }}...</p>
               } @else {
                 <article
                   class="site-rules-markdown"
@@ -31,7 +31,7 @@ import { TPipe } from './shared/pipes/t.pipe'
             type="button"
             class="site-rules-trigger"
             [attr.aria-expanded]="rulesOpen()"
-            [attr.aria-label]="'rulesButtonLabel' | t"
+            [attr.aria-label]="'rules.buttonLabel' | t"
             (click)="toggleRules()"
           >
             <img
@@ -41,42 +41,42 @@ import { TPipe } from './shared/pipes/t.pipe'
               class="site-rules-logo"
             />
             <span class="site-rules-trigger-text">
-              {{ 'rulesFooterTrigger' | t }}
+              {{ 'rules.footerTrigger' | t }}
             </span>
           </button>
         </div>
 
         <div class="site-legal-links">
           <a href="https://steinente.de/" class="site-legal-link">
-            {{ 'mainPageTitle' | t }}
+            {{ 'app.mainPageTitle' | t }}
           </a>
 
           <a
             href="https://steinente.de/imprint?game=poker"
             class="site-legal-link"
           >
-            {{ 'legalImprintTitle' | t }}
+            {{ 'legal.imprintTitle' | t }}
           </a>
 
           <a
             href="https://steinente.de/privacy?game=poker"
             class="site-legal-link"
           >
-            {{ 'legalPrivacyTitle' | t }}
+            {{ 'legal.privacyTitle' | t }}
           </a>
         </div>
 
         <div class="site-donate">
           @if (donationOpen()) {
             <div class="site-donate-popover">
-              <p class="site-donate-text">{{ 'donationPopoverText' | t }}</p>
+              <p class="site-donate-text">{{ 'donation.popoverText' | t }}</p>
               <a
                 href="https://paypal.me/steinente"
                 target="_blank"
                 rel="noreferrer noopener"
                 class="site-donate-link"
               >
-                {{ 'donationLinkLabel' | t }}
+                {{ 'donation.linkLabel' | t }}
               </a>
             </div>
           }
@@ -85,7 +85,7 @@ import { TPipe } from './shared/pipes/t.pipe'
             type="button"
             class="site-donate-trigger"
             [attr.aria-expanded]="donationOpen()"
-            [attr.aria-label]="'donationButtonLabel' | t"
+            [attr.aria-label]="'donation.buttonLabel' | t"
             (click)="toggleDonation()"
           >
             <img
@@ -653,7 +653,7 @@ export class SiteFooterComponent {
       this.rulesHtml.set(rendered)
       this.rulesContextLoaded = language
     } catch {
-      this.rulesHtml.set(this.i18n.t('rulesLoadFailed'))
+      this.rulesHtml.set(this.i18n.t('rules.loadFailed'))
       this.rulesContextLoaded = language
     } finally {
       this.rulesLoading.set(false)
@@ -702,10 +702,10 @@ export class SiteFooterComponent {
 
   private ruleCardValueLabel(value: string) {
     const faceCardLabels: Record<string, string> = {
-      A: this.i18n.t('card.value.14'),
-      K: this.i18n.t('card.value.13'),
-      Q: this.i18n.t('card.value.12'),
-      J: this.i18n.t('card.value.11'),
+      A: this.i18n.t('card.value.ace'),
+      K: this.i18n.t('card.value.king'),
+      Q: this.i18n.t('card.value.queen'),
+      J: this.i18n.t('card.value.jack'),
     }
 
     return faceCardLabels[value] ?? value

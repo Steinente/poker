@@ -3,7 +3,7 @@
     <div class="device-switch-header">
       <h3>{{ 'deviceSwitch.title' | t }}</h3>
       <button class="btn" type="button" (click)="close.emit()">
-        {{ 'close' | t }}
+        {{ 'common.close' | t }}
       </button>
     </div>
 
@@ -11,7 +11,7 @@
       @if (qrLoading()) {
         <div class="device-switch-qr-loader" aria-live="polite">
           <span class="device-switch-qr-spinner" aria-hidden="true"></span>
-          <span class="muted">{{ 'loading' | t }}...</span>
+          <span class="muted">{{ 'common.loading' | t }}...</span>
         </div>
       }
 
@@ -37,7 +37,7 @@
 
     <div class="device-switch-actions">
       <button class="btn btn-primary" type="button" (click)="copyUrl()">
-        {{ copied() ? ('copied' | t) : ('copyLink' | t) }}
+        {{ copied() ? ('common.copied' | t) : ('lobby.copyLink' | t) }}
       </button>
       <button
         class="btn btn-primary"
@@ -51,7 +51,7 @@
 
     <div class="device-switch-footer">
       <button class="btn" type="button" (click)="cancel.emit()">
-        {{ 'cancel' | t }}
+        {{ 'common.cancel' | t }}
       </button>
       <span class="muted">
         {{ 'deviceSwitch.validFor' | t }}: {{ formatCountdown() }}

@@ -25,7 +25,7 @@ const QUICK_EMOTES = ['😀', '🎉', '👏', '😅', '🤔', '❤️']
   template: `
     <div #panelRoot class="panel chat-panel">
       <div class="chat-header">
-        <h3 style="margin: 0;">{{ 'chat' | t }}</h3>
+        <h3 style="margin: 0;">{{ 'panel.chat' | t }}</h3>
         <div class="chat-header-actions">
           @if (canToggleSpectatorChat) {
             <button
@@ -34,8 +34,8 @@ const QUICK_EMOTES = ['😀', '🎉', '👏', '😅', '🤔', '❤️']
               type="button"
               [title]="
                 (spectatorChatAllowed
-                  ? 'spectatorChatEnabled'
-                  : 'spectatorChatDisabled'
+                  ? 'spectator.chat.enabled'
+                  : 'spectator.chat.disabled'
                 ) | t
               "
               (click)="toggleSpectatorChat()"
@@ -49,7 +49,7 @@ const QUICK_EMOTES = ['😀', '🎉', '👏', '😅', '🤔', '❤️']
             [class.btn-active]="chatSoundEnabled"
             type="button"
             [title]="
-              (chatSoundEnabled ? 'chatSoundEnabled' : 'chatSoundDisabled') | t
+              (chatSoundEnabled ? 'settings.chatSound.enabled' : 'settings.chatSound.disabled') | t
             "
             (click)="toggleChatSound()"
           >
@@ -67,7 +67,7 @@ const QUICK_EMOTES = ['😀', '🎉', '👏', '😅', '🤔', '❤️']
         (scroll)="onScroll()"
       >
         @if (!messages.length) {
-          <div class="muted">{{ 'chatNoMessages' | t }}</div>
+          <div class="muted">{{ 'chat.empty' | t }}</div>
         } @else {
           @for (message of messages; track message.id) {
             <div
@@ -92,7 +92,7 @@ const QUICK_EMOTES = ['😀', '🎉', '👏', '😅', '🤔', '❤️']
       </div>
 
       <div class="chat-emotes">
-        <span class="muted">{{ 'chatEmotesLabel' | t }}:</span>
+        <span class="muted">{{ 'chat.emotes.label' | t }}:</span>
         @for (emote of quickEmotes; track emote) {
           <button
             class="btn emote-btn"
@@ -116,8 +116,8 @@ const QUICK_EMOTES = ['😀', '🎉', '👏', '😅', '🤔', '❤️']
           (ngModelChange)="draft = $event"
           [placeholder]="
             (canSendMessage()
-              ? 'chatInputPlaceholder'
-              : 'chatInputDisabledForSpectator'
+              ? 'chat.input.placeholder'
+              : 'chat.input.disabledForSpectator'
             ) | t
           "
           maxlength="300"
@@ -129,7 +129,7 @@ const QUICK_EMOTES = ['😀', '🎉', '👏', '😅', '🤔', '❤️']
           [disabled]="!canSendMessage()"
           (click)="send()"
         >
-          {{ 'chatSend' | t }}
+          {{ 'chat.send' | t }}
         </button>
       </div>
 
@@ -308,7 +308,7 @@ export class ChatPanelComponent implements OnChanges {
   @Input({ required: true }) messages: GameChatMessageView[] = []
   @Input({ required: true }) selfPlayerId = ''
   @Output() readonly sendMessage = new EventEmitter<string>()
-  @Input() selfRole: 'host' | 'player' | 'spectator' = 'player'
+  @Input() selfRole: 'player.host' | 'player' | 'spectator' = 'player'
   @Input() spectatorChatAllowed = true
   @Input() canToggleSpectatorChat = false
   @Output() readonly spectatorChatToggle = new EventEmitter<boolean>()

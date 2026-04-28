@@ -11,6 +11,7 @@
     "dev:client-ui": "ng serve client-ui --port 4200",
     "dev:server": "pnpm --filter @poker/server dev",
     "lint": "pnpm -r lint",
+    "translations:check": "pnpm --filter @poker/client-ui translations:check",
     "test": "pnpm -r test",
     "format": "pnpm -r format",
     "serve:ssr:client-ui": "node dist/client-ui/server/server.mjs",

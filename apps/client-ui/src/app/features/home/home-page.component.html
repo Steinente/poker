@@ -2,13 +2,13 @@
   <div class="panel grid">
     <div class="spread home-top-spread">
       <div>
-        <h1 class="title">{{ 'homeTitle' | t }}</h1>
-        <p class="subtitle">{{ 'homeSubtitle' | t }}</p>
+        <h1 class="title">{{ 'home.title' | t }}</h1>
+        <p class="subtitle">{{ 'home.subtitle' | t }}</p>
       </div>
 
       <div class="home-preferences-row">
         <div class="home-language-box">
-          <label class="label">{{ 'language' | t }}</label>
+          <label class="label">{{ 'nav.language' | t }}</label>
           <select
             class="select"
             [ngModel]="language.language()"
@@ -26,7 +26,7 @@
     }
 
     <div class="panel">
-      <label class="label">{{ 'playerName' | t }}</label>
+      <label class="label">{{ 'player.name' | t }}</label>
       <input
         class="input"
         [ngModel]="playerName"
@@ -43,9 +43,9 @@
 
     <div class="grid home-actions-grid">
       <div class="panel">
-        <h3 class="panel-title">{{ 'createLobby' | t }}</h3>
+        <h3 class="panel-title">{{ 'lobby.create' | t }}</h3>
 
-        <label class="label">{{ 'lobbyPasswordOptional' | t }}</label>
+        <label class="label">{{ 'lobby.password.optional' | t }}</label>
         <input class="input" [(ngModel)]="createPassword" type="password" />
 
         <div class="row create-lobby-actions section-gap-top">
@@ -54,18 +54,18 @@
             [disabled]="store.loading()"
             (click)="createLobby()"
           >
-            {{ 'createLobby' | t }}
+            {{ 'lobby.create' | t }}
           </button>
         </div>
       </div>
 
       <div class="panel">
-        <h3 class="panel-title">{{ 'joinLobby' | t }}</h3>
+        <h3 class="panel-title">{{ 'lobby.join' | t }}</h3>
 
-        <label class="label">{{ 'lobbyCode' | t }}</label>
+        <label class="label">{{ 'lobby.code' | t }}</label>
         <input class="input" [(ngModel)]="joinCode" />
 
-        <label class="label field-gap-top">{{ 'lobbyPassword' | t }}</label>
+        <label class="label field-gap-top">{{ 'lobby.password.required' | t }}</label>
         <input class="input" [(ngModel)]="joinPassword" type="password" />
 
         <div class="row section-gap-top">
@@ -74,7 +74,7 @@
             [disabled]="store.loading()"
             (click)="joinLobby()"
           >
-            {{ 'joinLobby' | t }}
+            {{ 'lobby.join' | t }}
           </button>
 
           @if (session.lastLobbyCode()) {
@@ -83,7 +83,7 @@
               [disabled]="store.loading()"
               (click)="reconnectLast()"
             >
-              {{ 'reconnect' | t }}
+              {{ 'lobby.reconnect' | t }}
             </button>
           }
         </div>
@@ -92,11 +92,11 @@
 
     <div class="panel">
       <div class="lobby-list-header">
-        <h3 class="lobby-list-title">{{ 'lobbyListTitle' | t }}</h3>
+        <h3 class="lobby-list-title">{{ 'lobby.list.title' | t }}</h3>
       </div>
 
       @if (!store.lobbyList().length) {
-        <div class="muted">{{ 'noLobbiesAvailable' | t }}</div>
+        <div class="muted">{{ 'lobby.list.empty' | t }}</div>
       } @else {
         <div class="grid lobby-list-grid">
           @for (lobby of store.lobbyList(); track lobby.code) {
@@ -107,7 +107,7 @@
                     <strong>{{ lobby.code }}</strong>
                     @if (lobby.hasPassword) {
                       <span class="muted">
-                        • {{ 'passwordProtected' | t }}</span
+                        • {{ 'lobby.password.protected' | t }}</span
                       >
                     }
                     <span class="muted"> • </span>
@@ -122,8 +122,8 @@
                     >
                   </div>
                   <div class="muted">
-                    {{ 'players' | t }}: {{ playingPlayersCount(lobby) }}/6 •
-                    {{ 'spectators' | t }}: {{ spectatorsCount(lobby) }}
+                    {{ 'player.plural' | t }}: {{ playingPlayersCount(lobby) }}/6 •
+                    {{ 'spectator.plural' | t }}: {{ spectatorsCount(lobby) }}
                   </div>
                 </div>
 
@@ -133,7 +133,7 @@
                       class="input open-lobbies-password-input"
                       [(ngModel)]="lobbyPasswords[lobby.code]"
                       type="password"
-                      [placeholder]="'lobbyPasswordShort' | t"
+                      [placeholder]="'lobby.password.short' | t"
                     />
                   }
                   @if (isLobbyRunning(lobby.status)) {
@@ -143,7 +143,7 @@
                         [disabled]="store.loading()"
                         (click)="reconnectListedLobby(lobby.code)"
                       >
-                        {{ 'reconnect' | t }}
+                        {{ 'lobby.reconnect' | t }}
                       </button>
                     } @else {
                       <button
@@ -153,7 +153,7 @@
                           spectateListedLobby(lobby.code, lobby.hasPassword)
                         "
                       >
-                        {{ 'watchAsSpectator' | t }}
+                        {{ 'spectator.watch' | t }}
                       </button>
                     }
                   } @else {
@@ -162,7 +162,7 @@
                       [disabled]="store.loading()"
                       (click)="joinListedLobby(lobby.code, lobby.hasPassword)"
                     >
-                      {{ 'joinThisLobby' | t }}
+                      {{ 'lobby.joinThis' | t }}
                     </button>
                   }
                 </div>

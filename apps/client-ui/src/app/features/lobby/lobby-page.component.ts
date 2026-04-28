@@ -55,8 +55,8 @@ export class LobbyPageComponent {
     const mode = this.store.lobby()?.config.automaticBlindIncreaseMode ?? 'time'
 
     return mode === 'dealerRounds'
-      ? this.i18n.t('automaticBlindIncreaseValueDealerRoundsLabel')
-      : this.i18n.t('automaticBlindIncreaseValueTimeLabel')
+      ? this.i18n.t('config.automaticBlindIncrease.value.dealerRoundsLabel')
+      : this.i18n.t('config.automaticBlindIncrease.value.timeLabel')
   }
 
   roleKey(role: string): TranslationKey {
@@ -71,7 +71,7 @@ export class LobbyPageComponent {
 
     navigator.clipboard.writeText(code).catch(() => {
       this.copied.set(false)
-      this.store.setError(this.i18n.t('copyFailed'))
+      this.store.setError(this.i18n.t('common.copyFailed'))
     })
   }
 
@@ -81,8 +81,8 @@ export class LobbyPageComponent {
 
     const lobbyUrl = this.getLobbyJoinUrl(lobby.code)
     const shareData: ShareData = {
-      title: this.i18n.t('shareLobbyTitle'),
-      text: this.i18n.t('shareLobbyText').replace('{code}', lobby.code),
+      title: this.i18n.t('lobby.share.title'),
+      text: this.i18n.t('lobby.share.text').replace('{code}', lobby.code),
       url: lobbyUrl,
     }
 
@@ -103,7 +103,7 @@ export class LobbyPageComponent {
         this.showCopiedStatus()
       })
       .catch(() => {
-        this.store.setError(this.i18n.t('copyFailed'))
+        this.store.setError(this.i18n.t('common.copyFailed'))
       })
   }
 
@@ -131,12 +131,12 @@ export class LobbyPageComponent {
     ).length
 
     if (playerCount < minPlayers) {
-      this.store.setError(this.i18n.t('minPlayersRequired'))
+      this.store.setError(this.i18n.t('config.validation.minPlayersRequired'))
       return
     }
 
     if (playerCount > maxPlayers) {
-      this.store.setError(this.i18n.t('maxPlayersExceeded'))
+      this.store.setError(this.i18n.t('config.validation.maxPlayersExceeded'))
       return
     }
 

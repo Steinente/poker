@@ -14,7 +14,7 @@ import { TPipe } from '../../shared/pipes/t.pipe'
   template: `
     <div class="page-shell">
       <div class="panel" style="max-width: 620px; margin: 0 auto; width: 100%;">
-        <h2 style="margin-top: 0;">{{ 'lobby' | t }} {{ routeCode }}</h2>
+        <h2 style="margin-top: 0;">{{ 'nav.lobby' | t }} {{ routeCode }}</h2>
 
         @if (store.error()) {
           <div class="error-box" style="margin-bottom: 12px;">
@@ -25,21 +25,21 @@ import { TPipe } from '../../shared/pipes/t.pipe'
         <div class="panel" style="margin-bottom: 12px;">
           <div class="muted">
             @if (routeLobby(); as lobby) {
-              {{ statusLabel(lobby.status) }} • {{ 'players' | t }}:
+              {{ statusLabel(lobby.status) }} • {{ 'player.plural' | t }}:
               {{ playingPlayersCount(lobby) }}/6
             } @else {
-              {{ 'loading' | t }}...
+              {{ 'common.loading' | t }}...
             }
           </div>
         </div>
 
         @if (!deviceSwitchToken) {
-          <label class="label">{{ 'playerName' | t }}</label>
+          <label class="label">{{ 'player.name' | t }}</label>
           <input class="input" [(ngModel)]="playerName" />
 
           @if (routeLobby()?.hasPassword) {
             <label class="label" style="margin-top: 12px;">{{
-              'lobbyPassword' | t
+              'lobby.password.required' | t
             }}</label>
             <input class="input" [(ngModel)]="password" type="password" />
           }
@@ -58,17 +58,17 @@ import { TPipe } from '../../shared/pipes/t.pipe'
             >
               {{
                 store.loading()
-                  ? ('loading' | t)
+                  ? ('common.loading' | t)
                   : canReconnectLobby()
-                    ? ('reconnect' | t)
+                    ? ('lobby.reconnect' | t)
                     : isRouteLobbyRunning()
-                      ? ('watchAsSpectator' | t)
-                      : ('joinThisLobby' | t)
+                      ? ('spectator.watch' | t)
+                      : ('lobby.joinThis' | t)
               }}
             </button>
           }
 
-          <a routerLink="/" class="btn">{{ 'back' | t }}</a>
+          <a routerLink="/" class="btn">{{ 'nav.back' | t }}</a>
         </div>
       </div>
     </div>
@@ -173,8 +173,8 @@ export class JoinPageComponent implements OnInit, OnDestroy {
 
   statusLabel(status: string) {
     return this.isLobbyRunning(status)
-      ? this.i18n.t('lobbyStatusRunning')
-      : this.i18n.t('lobbyStatusWaiting')
+      ? this.i18n.t('lobbyPresence.running')
+      : this.i18n.t('lobbyPresence.waiting')
   }
 
   playingPlayersCount(lobby: LobbySummary) {
@@ -219,7 +219,7 @@ export class JoinPageComponent implements OnInit, OnDestroy {
     }
 
     const confirmed = window.confirm(
-      this.i18n.format('confirmSwitchGameWarning', {
+      this.i18n.format('confirm.switchGameWarning', {
         currentCode: previousLobby.code,
       }),
     )

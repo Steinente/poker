@@ -10,7 +10,7 @@ import { TPipe } from '../../../shared/pipes/t.pipe'
   imports: [TPipe],
   template: `
     <div class="panel player-panel">
-      <h3 style="margin-top: 0;">{{ 'players' | t }}</h3>
+      <h3 style="margin-top: 0;">{{ 'player.plural' | t }}</h3>
 
       <div class="grid" style="gap: 8px;">
         @for (player of state.players; track player.playerId) {
@@ -24,7 +24,7 @@ import { TPipe } from '../../../shared/pipes/t.pipe'
               <strong>
                 {{ player.name }}
                 @if (player.playerId === state.selfPlayerId) {
-                  <span class="muted">({{ 'self' | t }})</span>
+                  <span class="muted">({{ 'player.self' | t }})</span>
                 }
               </strong>
 
@@ -59,7 +59,7 @@ import { TPipe } from '../../../shared/pipes/t.pipe'
             </div>
 
             <div class="player-row-stats muted">
-              <span>{{ 'seat' | t }} {{ player.seatIndex + 1 }}</span>
+              <span>{{ 'table.seat' | t }} {{ player.seatIndex + 1 }}</span>
               <span>{{ 'game.chips' | t }} {{ player.chips }}</span>
               <span>{{ 'game.handsWon' | t }} {{ player.handsWon }}</span>
             </div>

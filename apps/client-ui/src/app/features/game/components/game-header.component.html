@@ -1,10 +1,10 @@
 ﻿<div class="panel">
   <div class="spread">
     <div class="header-meta">
-      <h2 style="margin: 0">{{ 'gameTable' | t }}</h2>
-      <div class="muted">{{ 'lobby' | t }} {{ state.lobbyCode }}</div>
+      <h2 style="margin: 0">{{ 'game.table' | t }}</h2>
+      <div class="muted">{{ 'nav.lobby' | t }} {{ state.lobbyCode }}</div>
       <div class="header-rules" aria-label="Game rules summary">
-        <span class="header-rules-label">{{ 'rules' | t }}</span>
+        <span class="header-rules-label">{{ 'nav.rules' | t }}</span>
         <div class="header-rules-list">
           @for (rule of ruleItems; track rule.id) {
             <span class="header-rule-chip">
@@ -48,18 +48,18 @@
           (pointerdown)="homeButtonUserGesture.emit()"
           (click)="confirmLeaveGame()"
         >
-          {{ 'home' | t }}
+          {{ 'nav.home' | t }}
         </button>
       </div>
 
       <div class="header-status-row">
-        <span class="status-pill">{{ 'phase' | t }} {{ translatedPhase }}</span>
+        <span class="status-pill">{{ 'table.phase' | t }} {{ translatedPhase }}</span>
 
         @if (showDeckBadge) {
-          <span class="status-pill">{{ 'deck' | t }} {{ deckLabel }}</span>
+          <span class="status-pill">{{ 'table.deck' | t }} {{ deckLabel }}</span>
         }
 
-        <span class="status-pill">{{ 'round' | t }} {{ roundLabel }}</span>
+        <span class="status-pill">{{ 'table.round' | t }} {{ roundLabel }}</span>
         <span
           class="status-pill"
           [class.active-turn]="spectatorCount > 0"
@@ -70,17 +70,17 @@
           (keydown.space)="toggleSpectators()"
           style="cursor: pointer; user-select: none"
         >
-          {{ 'spectators' | t }} {{ spectatorCount }}
+          {{ 'spectator.plural' | t }} {{ spectatorCount }}
         </span>
       </div>
 
       @if (showSpectators) {
         <div class="panel header-spectators-panel">
           <div class="label" style="margin-bottom: 8px">
-            {{ 'spectators' | t }}:
+            {{ 'spectator.plural' | t }}:
           </div>
           @if (!state.spectators.length) {
-            <div class="muted">{{ 'noSpectators' | t }}</div>
+            <div class="muted">{{ 'spectator.none' | t }}</div>
           } @else {
             <div class="muted">{{ spectatorNames }}</div>
           }

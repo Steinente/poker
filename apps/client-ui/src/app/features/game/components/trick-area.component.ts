@@ -11,7 +11,7 @@ import { TPipe } from '../../../shared/pipes/t.pipe'
   template: `
     <div class="panel">
       <div class="table-header">
-        <h3 style="margin: 0;">{{ 'gameTable' | t }}</h3>
+        <h3 style="margin: 0;">{{ 'game.table' | t }}</h3>
         <div class="muted">{{ 'game.pot' | t }} {{ potTotal }}</div>
       </div>
 

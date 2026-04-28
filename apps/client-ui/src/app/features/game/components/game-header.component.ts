@@ -13,7 +13,7 @@ type HeaderRuleItem = {
     | 'holdemLimitMode'
     | 'maxPlayers'
     | 'buyIn'
-    | 'blinds'
+    | 'table.blinds'
     | 'spectatorChat'
   label: string
   value: string
@@ -59,40 +59,40 @@ export class GameHeaderComponent {
     return [
       {
         id: 'pokerVariant',
-        label: this.i18n.t('pokerVariantLabel'),
+        label: this.i18n.t('config.pokerVariant.label'),
         value: "Texas Hold'em",
       },
       {
         id: 'holdemLimitMode',
-        label: this.i18n.t('holdemLimitModeLabel'),
+        label: this.i18n.t('config.holdem.limitMode.label'),
         value:
           this.state.config.holdemLimitMode === 'fixedLimit'
-            ? this.i18n.t('holdemLimitModeFixedLimit')
+            ? this.i18n.t('config.holdem.limitMode.fixedLimit')
             : this.state.config.holdemLimitMode === 'potLimit'
-              ? this.i18n.t('holdemLimitModePotLimit')
-              : this.i18n.t('holdemLimitModeNoLimit'),
+              ? this.i18n.t('config.holdem.limitMode.potLimit')
+              : this.i18n.t('config.holdem.limitMode.noLimit'),
       },
       {
         id: 'maxPlayers',
-        label: this.i18n.t('maxPlayersLabel'),
+        label: this.i18n.t('config.maxPlayers.label'),
         value: String(this.state.config.maxPlayers),
       },
       {
         id: 'buyIn',
-        label: this.i18n.t('buyInLabel'),
+        label: this.i18n.t('config.buyIn.label'),
         value: String(this.state.config.buyIn),
       },
       {
-        id: 'blinds',
-        label: this.i18n.t('blinds'),
+        id: 'table.blinds',
+        label: this.i18n.t('table.blinds'),
         value: `${this.state.config.smallBlind}/${this.state.config.bigBlind}`,
       },
       {
         id: 'spectatorChat',
-        label: this.i18n.t('spectators'),
+        label: this.i18n.t('spectator.plural'),
         value: this.state.config.allowSpectatorChat
-          ? this.i18n.t('spectatorChatEnabled')
-          : this.i18n.t('spectatorChatDisabled'),
+          ? this.i18n.t('spectator.chat.enabled')
+          : this.i18n.t('spectator.chat.disabled'),
       },
     ]
   }
@@ -146,7 +146,7 @@ export class GameHeaderComponent {
       return
     }
 
-    const confirmed = window.confirm(this.i18n.t('confirmLeaveGame'))
+    const confirmed = window.confirm(this.i18n.t('confirm.leaveGame'))
 
     if (confirmed) {
       this.facade.setInGame(this.state.lobbyCode, false)

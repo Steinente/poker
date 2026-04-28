@@ -22,10 +22,10 @@ interface RankedPlayer {
     <div class="panel finished-panel">
       <div class="finished-hero">
         <div class="finished-label">{{ 'phase.finished' | t }}</div>
-        <h2 style="margin: 0;">{{ 'gameFinishedTitle' | t }}</h2>
-        <p class="muted" style="margin: 8px 0 0;">{{ 'finalRanking' | t }}</p>
+        <h2 style="margin: 0;">{{ 'game.finishedTitle' | t }}</h2>
+        <p class="muted" style="margin: 8px 0 0;">{{ 'game.finalRanking' | t }}</p>
         <p class="muted" style="margin: 6px 0 0;">
-          {{ 'totalGameTime' | t }}: {{ formatDuration(totalGameDurationMs()) }}
+          {{ 'stats.totalGameTime' | t }}: {{ formatDuration(totalGameDurationMs()) }}
         </p>
       </div>
 
@@ -44,20 +44,20 @@ interface RankedPlayer {
               <div class="ranking-name">
                 {{ player.name }}
                 @if (player.isSelf) {
-                  <span class="muted">({{ 'self' | t }})</span>
+                  <span class="muted">({{ 'player.self' | t }})</span>
                 }
               </div>
               <div class="muted">
                 {{ 'game.handsWon' | t }} {{ player.handsWon }}
               </div>
               <div class="muted">
-                {{ 'interactionTime' | t }}
+                {{ 'stats.interactionTime' | t }}
                 {{ formatDuration(player.interactionTimeMs) }}
               </div>
             </div>
 
             <div class="ranking-score">
-              {{ player.chips }} {{ 'points' | t }}
+              {{ player.chips }} {{ 'table.points' | t }}
             </div>
           </div>
         }

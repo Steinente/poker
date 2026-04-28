@@ -99,7 +99,7 @@ export class HomePageComponent implements OnInit, OnDestroy {
         : undefined
     if (invalidCode) {
       this.appStore.setError(
-        this.language.format('lobbyNotFoundRedirect', { code: invalidCode }),
+        this.language.format('lobby.notFoundRedirect', { code: invalidCode }),
       )
     }
 
@@ -122,8 +122,8 @@ export class HomePageComponent implements OnInit, OnDestroy {
 
   statusLabel(status: string) {
     return this.isLobbyRunning(status)
-      ? this.language.t('lobbyStatusRunning')
-      : this.language.t('lobbyStatusWaiting')
+      ? this.language.t('lobbyPresence.running')
+      : this.language.t('lobbyPresence.waiting')
   }
 
   playingPlayersCount(lobby: LobbySummary) {
@@ -187,7 +187,7 @@ export class HomePageComponent implements OnInit, OnDestroy {
     }
 
     const confirmed = window.confirm(
-      this.language.format('confirmSwitchGameWarning', {
+      this.language.format('confirm.switchGameWarning', {
         currentCode: previousLobby.code,
       }),
     )

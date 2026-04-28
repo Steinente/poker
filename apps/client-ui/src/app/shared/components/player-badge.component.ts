@@ -16,7 +16,7 @@ import { TPipe } from '../pipes/t.pipe'
         <strong class="name-wrap">
           <span>{{ name }}</span>
           @if (showDealerIndicator) {
-            <span class="dealer-indicator" [attr.title]="'tooltipDealer' | t"
+            <span class="dealer-indicator" [attr.title]="'tooltip.dealer' | t"
               >D</span
             >
           }
@@ -27,7 +27,7 @@ import { TPipe } from '../pipes/t.pipe'
       </div>
 
       <div class="row" style="margin-top: 8px; flex-wrap: wrap;">
-        <span class="muted">{{ 'seat' | t }} {{ seatIndex + 1 }}</span>
+        <span class="muted">{{ 'table.seat' | t }} {{ seatIndex + 1 }}</span>
       </div>
     </div>
   `,
@@ -100,9 +100,9 @@ export class PlayerBadgeComponent {
 
   get statusText() {
     return this.presence === 'online'
-      ? 'online'
+      ? 'presence.online'
       : this.presence === 'away'
-        ? 'notInGame'
-        : 'offline'
+        ? 'presence.notInGame'
+        : 'presence.offline'
   }
 }

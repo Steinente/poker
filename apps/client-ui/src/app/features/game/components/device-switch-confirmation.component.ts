@@ -21,7 +21,7 @@ import { TPipe } from '../../../shared/pipes/t.pipe'
         <p class="muted">{{ 'deviceSwitch.confirmMessage' | t }}</p>
         <div class="device-switch-confirm-actions">
           <button class="btn" type="button" (click)="cancel.emit()">
-            {{ 'cancel' | t }}
+            {{ 'common.cancel' | t }}
           </button>
           <button
             class="btn btn-primary"

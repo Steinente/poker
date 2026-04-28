@@ -8,6 +8,7 @@ import type { TranslationKey } from '../../../core/i18n/translations'
 import { I18nService } from '../../../core/i18n/i18n.service'
 import { CardComponent } from '../../../shared/components/card.component'
 import { TPipe } from '../../../shared/pipes/t.pipe'
+import { getCardValueTranslationKey } from '../../../shared/utils/card-label.util'
 import { getBestHandRankKey } from '../utils/hand-rank.util'
 
 @Component({
@@ -224,9 +225,9 @@ export class PreviousRoundCardsPanelComponent {
 
   cardScreenReaderLabel(card: Card) {
     if (card.type === 'number') {
-      return `${this.i18n.t(`suit.${card.suit}` as TranslationKey)} ${this.i18n.t(
-        `card.value.${card.value}` as TranslationKey,
-      )}`
+      const valueKey = getCardValueTranslationKey(card.value)
+      const valueLabel = valueKey ? this.i18n.t(valueKey) : String(card.value)
+      return `${this.i18n.t(`suit.${card.suit}` as TranslationKey)} ${valueLabel}`
     }
 
     return ''

@@ -19,6 +19,7 @@ import {
   getCardSubtitleKey,
   getCardSuitSymbol,
   getCardTitleKey,
+  getCardValueTranslationKey,
 } from '../utils/card-label.util'
 import { SUIT_BACKGROUNDS, SUIT_FOREGROUNDS } from '../utils/suit-colors.util'
 
@@ -642,7 +643,8 @@ export class CardComponent {
   }
 
   private getCardValueLabel(value: number): string {
-    return this.i18n.t(`card.value.${value}` as TranslationKey)
+    const key = getCardValueTranslationKey(value)
+    return key ? this.i18n.t(key) : String(value)
   }
 
   private getShapeShifterModeLabel(

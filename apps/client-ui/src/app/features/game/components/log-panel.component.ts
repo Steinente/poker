@@ -20,7 +20,7 @@ import { normalizeLogParams } from '../utils/log-params.util'
   encapsulation: ViewEncapsulation.None,
   template: `
     <div class="panel">
-      <h3 style="margin-top: 0;">{{ 'logs' | t }}</h3>
+      <h3 style="margin-top: 0;">{{ 'panel.logs' | t }}</h3>
 
       <div
         #scrollContainer

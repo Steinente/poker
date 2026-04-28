@@ -13,7 +13,7 @@ import { getBestHandRankKey } from '../utils/hand-rank.util'
     <div class="panel">
       <div class="hand-header">
         <div class="hand-title-row">
-          <h3 style="margin: 0;">{{ 'yourHand' | t }}</h3>
+          <h3 style="margin: 0;">{{ 'hand.title' | t }}</h3>
           <div class="muted">{{ handRankLabel() }}</div>
         </div>
         @if (stack !== null) {

@@ -17,7 +17,7 @@ import { TPipe } from '../../../shared/pipes/t.pipe'
   template: `
     <div class="panel score-panel">
       <div class="score-panel-head">
-        <h3 style="margin: 0;">{{ 'scoreboard' | t }}</h3>
+        <h3 style="margin: 0;">{{ 'panel.scoreboard' | t }}</h3>
 
         @if (a11yMode) {
           <label class="score-a11y-round-filter">
@@ -25,9 +25,9 @@ import { TPipe } from '../../../shared/pipes/t.pipe'
               type="checkbox"
               [ngModel]="a11yRoundScope === 'lastRound'"
               (ngModelChange)="changeA11yLastRoundOnly($event)"
-              [attr.aria-label]="'scoreboardA11yRoundFilterLabel' | t"
+              [attr.aria-label]="'scoreboard.a11y.roundFilter.label' | t"
             />
-            <span>{{ 'scoreboardA11yRoundFilterLastRound' | t }}</span>
+            <span>{{ 'scoreboard.a11y.roundFilter.lastRound' | t }}</span>
           </label>
         }
       </div>
@@ -39,22 +39,22 @@ import { TPipe } from '../../../shared/pipes/t.pipe'
       >
         @if (a11yMode) {
           @if (a11yRoundScope === 'lastRound') {
-            <ul class="players-list" [attr.aria-label]="'scoreboard' | t">
+            <ul class="players-list" [attr.aria-label]="'panel.scoreboard' | t">
               @for (player of orderedPlayers(); track player.playerId) {
                 <li class="player-score-item">
                   <span class="player-name-score">{{ player.name }}:</span>
                   <span class="points-score">
-                    {{ 'points' | t }}:
+                    {{ 'table.points' | t }}:
                     {{ scoreDisplayValue(totalScore(player.playerId)) }}
                   </span>
                 </li>
               }
             </ul>
           } @else {
-            <ul class="rounds-list" [attr.aria-label]="'scoreboard' | t">
+            <ul class="rounds-list" [attr.aria-label]="'panel.scoreboard' | t">
               @for (round of displayedA11yRoundNumbers(); track round) {
                 <li class="round-item">
-                  <div class="round-label">{{ 'round' | t }} {{ round }}</div>
+                  <div class="round-label">{{ 'table.round' | t }} {{ round }}</div>
                   <ul class="players-list">
                     @for (player of orderedPlayers(); track player.playerId) {
                       <li class="player-score-item">
@@ -66,7 +66,7 @@ import { TPipe } from '../../../shared/pipes/t.pipe'
                           {{ bidDisplayValue(player.playerId, round) }}
                         </span>
                         <span class="points-score">
-                          {{ 'points' | t }}:
+                          {{ 'table.points' | t }}:
                           {{
                             scoreDisplayValue(
                               pointsValue(player.playerId, round)

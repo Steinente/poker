@@ -1,5 +1,6 @@
 ﻿import { SUITS, type Suit, type PokerGameViewState } from '@poker/shared'
 import type { TranslationKey } from '../../../core/i18n/translations'
+import { getCardValueTranslationKey } from '../../../shared/utils/card-label.util'
 
 type TranslateFn = (key: TranslationKey) => string
 
@@ -65,7 +66,8 @@ const formatSingleCardSpeech = (
   t: TranslateFn,
 ): string => {
   const suitName = t(`suit.${suit}` as TranslationKey)
-  const valueName = t(`card.value.${value}` as TranslationKey)
+  const valueKey = getCardValueTranslationKey(value)
+  const valueName = valueKey ? t(valueKey) : String(value)
   return `${suitName} ${valueName}`
 }
 

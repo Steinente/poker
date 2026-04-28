@@ -125,7 +125,7 @@ export class GamePageActionsService {
 
   sendChatMessage(
     text: string,
-    selfRole: 'host' | 'player' | 'spectator',
+    selfRole: 'player.host' | 'player' | 'spectator',
     spectatorChatAllowed: boolean,
   ) {
     const state = this.store.gameState()

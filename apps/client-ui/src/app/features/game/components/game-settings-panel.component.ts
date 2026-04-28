@@ -18,7 +18,7 @@ import type { RaiseInputMode } from '../../../core/services/session.service'
   imports: [FormsModule, TPipe],
   template: `
     <div class="panel settings-panel">
-      <h3 style="margin-top: 0;">{{ 'settings' | t }}</h3>
+      <h3 style="margin-top: 0;">{{ 'settings.title' | t }}</h3>
 
       <div class="row" style="margin-top: 8px;">
         <label class="row">
@@ -27,19 +27,19 @@ import type { RaiseInputMode } from '../../../core/services/session.service'
             [ngModel]="showTimestamp"
             (ngModelChange)="changeShowTimestamp($event)"
           />
-          <span>{{ 'logShowTimestamp' | t }}</span>
+          <span>{{ 'settings.log.showTimestamp' | t }}</span>
         </label>
       </div>
 
       <div style="margin-top: 12px;">
-        <label class="label">{{ 'raiseInputModeLabel' | t }}</label>
+        <label class="label">{{ 'settings.raiseInputMode.label' | t }}</label>
         <select
           class="input"
           [ngModel]="raiseInputMode"
           (ngModelChange)="changeRaiseInputMode($event)"
         >
-          <option value="to">{{ 'raiseInputModeTo' | t }}</option>
-          <option value="by">{{ 'raiseInputModeBy' | t }}</option>
+          <option value="to">{{ 'settings.raiseInputMode.to' | t }}</option>
+          <option value="by">{{ 'settings.raiseInputMode.by' | t }}</option>
         </select>
       </div>
 
@@ -52,7 +52,7 @@ import type { RaiseInputMode } from '../../../core/services/session.service'
           />
           <span>
             {{
-              audioEnabled ? ('readLogEnabled' | t) : ('readLogDisabled' | t)
+              audioEnabled ? ('settings.readLog.enabled' | t) : ('settings.readLog.disabled' | t)
             }}
           </span>
         </label>
@@ -60,7 +60,7 @@ import type { RaiseInputMode } from '../../../core/services/session.service'
 
       <div style="margin-top: 12px;">
         <label class="label"
-          >{{ 'soundVolumeLabel' | t }}: {{ volumePercent() }}%</label
+          >{{ 'settings.soundVolume.label' | t }}: {{ volumePercent() }}%</label
         >
         <input
           class="input"
@@ -75,7 +75,7 @@ import type { RaiseInputMode } from '../../../core/services/session.service'
 
       <div style="margin-top: 12px;">
         <label class="label"
-          >{{ 'speechSpeedLabel' | t }}: {{ speedValue() }}x</label
+          >{{ 'settings.speechSpeed.label' | t }}: {{ speedValue() }}x</label
         >
         <input
           class="input"
@@ -96,7 +96,7 @@ import type { RaiseInputMode } from '../../../core/services/session.service'
             (ngModelChange)="toggleBing($event)"
           />
           <span>
-            {{ bingEnabled ? ('bingEnabled' | t) : ('bingDisabled' | t) }}
+            {{ bingEnabled ? ('settings.turnNotification.enabled' | t) : ('settings.turnNotification.disabled' | t) }}
           </span>
         </label>
       </div>
@@ -111,8 +111,8 @@ import type { RaiseInputMode } from '../../../core/services/session.service'
           <span>
             {{
               raiseSoundEnabled
-                ? ('raiseSoundEnabled' | t)
-                : ('raiseSoundDisabled' | t)
+                ? ('settings.raiseSound.enabled' | t)
+                : ('settings.raiseSound.disabled' | t)
             }}
           </span>
         </label>
@@ -128,8 +128,8 @@ import type { RaiseInputMode } from '../../../core/services/session.service'
           <span>
             {{
               chatSoundEnabled
-                ? ('chatSoundEnabled' | t)
-                : ('chatSoundDisabled' | t)
+                ? ('settings.chatSound.enabled' | t)
+                : ('settings.chatSound.disabled' | t)
             }}
           </span>
         </label>
@@ -146,8 +146,8 @@ import type { RaiseInputMode } from '../../../core/services/session.service'
             <span>
               {{
                 spectatorChatAllowed
-                  ? ('spectatorChatEnabled' | t)
-                  : ('spectatorChatDisabled' | t)
+                  ? ('spectator.chat.enabled' | t)
+                  : ('spectator.chat.disabled' | t)
               }}
             </span>
           </label>
@@ -160,7 +160,7 @@ import type { RaiseInputMode } from '../../../core/services/session.service'
             class="btn btn-danger compact-btn close-lobby-btn"
             (click)="confirmingEnd = true"
           >
-            {{ 'closeLobby' | t }}
+            {{ 'lobby.close' | t }}
           </button>
         </div>
       }
@@ -168,10 +168,10 @@ import type { RaiseInputMode } from '../../../core/services/session.service'
       @if (isHost && confirmingEnd) {
         <div style="margin-top: 12px;" class="row confirm-end-actions">
           <button class="btn btn-danger compact-btn" (click)="endLobby()">
-            {{ 'confirmCloseLobby' | t }}
+            {{ 'lobby.confirmClose' | t }}
           </button>
           <button class="btn compact-btn" (click)="confirmingEnd = false">
-            {{ 'cancel' | t }}
+            {{ 'common.cancel' | t }}
           </button>
         </div>
       }
