@@ -8,6 +8,7 @@ import type { TranslationKey } from '../../../core/i18n/translations'
 import { I18nService } from '../../../core/i18n/i18n.service'
 import { CardComponent } from '../../../shared/components/card.component'
 import { TPipe } from '../../../shared/pipes/t.pipe'
+import { getBestHandRankKey } from '../utils/hand-rank.util'
 
 @Component({
   selector: 'poker-previous-round-cards-panel',
@@ -57,8 +58,13 @@ import { TPipe } from '../../../shared/pipes/t.pipe'
                 track revealedCards.playerId
               ) {
                 <div class="previous-round-player">
-                  <div class="previous-round-player-name">
-                    {{ playerName(revealedCards.playerId) }}
+                  <div class="previous-round-player-header">
+                    <div class="previous-round-player-name">
+                      {{ playerName(revealedCards.playerId) }}
+                    </div>
+                    <div class="muted previous-round-player-rank">
+                      {{ handRankLabel(revealedCards.cards) }}
+                    </div>
                   </div>
                   <div class="card-grid previous-round-card-grid">
                     @for (card of revealedCards.cards; track card.id) {
@@ -118,6 +124,18 @@ import { TPipe } from '../../../shared/pipes/t.pipe'
       .previous-round-player {
         display: grid;
         gap: 6px;
+      }
+
+      .previous-round-player-header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 8px;
+      }
+
+      .previous-round-player-rank {
+        font-size: 12px;
+        text-align: right;
       }
 
       .previous-round-card-grid {
@@ -191,6 +209,17 @@ export class PreviousRoundCardsPanelComponent {
       this.players.find((player) => player.playerId === playerId)?.name ??
       playerId
     )
+  }
+
+  handRankLabel(cards: Card[]) {
+    const rankKey = getBestHandRankKey([
+      ...cards,
+      ...(this.previousRound?.communityCards ?? []),
+    ])
+
+    return rankKey
+      ? this.i18n.t(`game.handRank.${rankKey}`)
+      : this.i18n.t('game.handRank.pending')
   }
 
   cardScreenReaderLabel(card: Card) {
