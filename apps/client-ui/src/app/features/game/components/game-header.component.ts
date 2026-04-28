@@ -36,11 +36,13 @@ export class GameHeaderComponent {
   @Input({ required: true }) settingsVisible = true
   @Input({ required: true }) playersVisible = true
   @Input({ required: true }) logVisible = true
+  @Input({ required: true }) previousVisible = true
   @Input({ required: true }) chatVisible = true
 
   @Output() readonly panelSettingsChange = new EventEmitter<boolean>()
   @Output() readonly panelPlayersChange = new EventEmitter<boolean>()
   @Output() readonly panelLogChange = new EventEmitter<boolean>()
+  @Output() readonly panelPreviousChange = new EventEmitter<boolean>()
   @Output() readonly panelChatChange = new EventEmitter<boolean>()
   @Output() readonly homeButtonUserGesture = new EventEmitter<void>()
   @Output() readonly deviceSwitchRequested = new EventEmitter<void>()

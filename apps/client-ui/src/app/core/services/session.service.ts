@@ -13,6 +13,7 @@ import {
   PANEL_PLAYERS_VISIBLE_KEY,
   PANEL_SCOREBOARD_VISIBLE_KEY,
   PANEL_LOG_VISIBLE_KEY,
+  PANEL_PREVIOUS_VISIBLE_KEY,
   PANEL_CHAT_VISIBLE_KEY,
   LOG_SHOW_TIMESTAMP_KEY,
   SCOREBOARD_A11Y_MODE_KEY,
@@ -75,6 +76,7 @@ export class SessionService {
   private readonly panelPlayersVisibleSignal = signal(true)
   private readonly panelScoreboardVisibleSignal = signal(true)
   private readonly panelLogVisibleSignal = signal(true)
+  private readonly panelPreviousVisibleSignal = signal(true)
   private readonly panelChatVisibleSignal = signal(true)
   private readonly logShowTimestampSignal = signal(true)
   private readonly scoreboardA11yModeSignal = signal(false)
@@ -104,6 +106,9 @@ export class SessionService {
     this.panelScoreboardVisibleSignal(),
   )
   readonly panelLogVisible = computed(() => this.panelLogVisibleSignal())
+  readonly panelPreviousVisible = computed(() =>
+    this.panelPreviousVisibleSignal(),
+  )
   readonly panelChatVisible = computed(() => this.panelChatVisibleSignal())
   readonly logShowTimestamp = computed(() => this.logShowTimestampSignal())
   readonly scoreboardA11yMode = computed(() => this.scoreboardA11yModeSignal())
@@ -159,6 +164,9 @@ export class SessionService {
 
     const storedPanelLog = this.storage.get(PANEL_LOG_VISIBLE_KEY)
     this.panelLogVisibleSignal.set(storedPanelLog !== 'false')
+
+    const storedPanelPrevious = this.storage.get(PANEL_PREVIOUS_VISIBLE_KEY)
+    this.panelPreviousVisibleSignal.set(storedPanelPrevious !== 'false')
 
     const storedPanelChat = this.storage.get(PANEL_CHAT_VISIBLE_KEY)
     this.panelChatVisibleSignal.set(storedPanelChat !== 'false')
@@ -260,6 +268,11 @@ export class SessionService {
   setPanelLogVisible(visible: boolean) {
     this.panelLogVisibleSignal.set(visible)
     this.storage.set(PANEL_LOG_VISIBLE_KEY, String(visible))
+  }
+
+  setPanelPreviousVisible(visible: boolean) {
+    this.panelPreviousVisibleSignal.set(visible)
+    this.storage.set(PANEL_PREVIOUS_VISIBLE_KEY, String(visible))
   }
 
   setPanelChatVisible(visible: boolean) {

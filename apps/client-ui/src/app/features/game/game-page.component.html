@@ -8,10 +8,12 @@
         [settingsVisible]="panelSettingsVisibleSignal()"
         [playersVisible]="panelPlayersVisibleSignal()"
         [logVisible]="panelLogVisibleSignal()"
+        [previousVisible]="panelPreviousVisibleSignal()"
         [chatVisible]="panelChatVisibleSignal()"
         (panelSettingsChange)="setPanelSettingsVisibleFn($event)"
         (panelPlayersChange)="setPanelPlayersVisibleFn($event)"
         (panelLogChange)="setPanelLogVisibleFn($event)"
+        (panelPreviousChange)="setPanelPreviousVisibleFn($event)"
         (panelChatChange)="setPanelChatVisibleFn($event)"
         (homeButtonUserGesture)="onHomeButtonUserGesture()"
         (deviceSwitchRequested)="openDeviceSwitchFn()"
@@ -147,12 +149,14 @@
           </div>
         }
 
-        <div class="game-block game-previous-round-block">
-          <poker-previous-round-cards-panel
-            [previousRound]="state.previousRoundRevealedCards"
-            [players]="state.players"
-          />
-        </div>
+        @if (panelPreviousVisibleSignal()) {
+          <div class="game-block game-previous-round-block">
+            <poker-previous-round-cards-panel
+              [previousRound]="state.previousRoundRevealedCards"
+              [players]="state.players"
+            />
+          </div>
+        }
 
         @if (panelChatVisibleSignal()) {
           <div class="game-block game-chat-block">

@@ -84,6 +84,7 @@ export const en = {
   scoreboard: 'Scoreboard',
   chat: 'Chat',
   logs: 'Logs',
+  previousRoundCards: 'Previous hand cards',
   chatInputPlaceholder: 'Write a message...',
   chatInputDisabledForSpectator:
     'Spectator chat has been disabled by the host.',

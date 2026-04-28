@@ -84,6 +84,7 @@ export const de = {
   scoreboard: 'Punktestand',
   chat: 'Chat',
   logs: 'Protokoll',
+  previousRoundCards: 'Karten der Vorrunde',
   chatInputPlaceholder: 'Nachricht schreiben...',
   chatInputDisabledForSpectator: 'Der Host hat den Zuschauer-Chat deaktiviert.',
   chatSend: 'Senden',

@@ -32,6 +32,7 @@ export const PANEL_PLAYERS_VISIBLE_KEY = 'steinente.poker.panelPlayersVisible'
 export const PANEL_SCOREBOARD_VISIBLE_KEY =
   'steinente.poker.panelScoreboardVisible'
 export const PANEL_LOG_VISIBLE_KEY = 'steinente.poker.panelLogVisible'
+export const PANEL_PREVIOUS_VISIBLE_KEY = 'steinente.poker.panelPreviousVisible'
 export const PANEL_CHAT_VISIBLE_KEY = 'steinente.poker.panelChatVisible'
 export const LOG_SHOW_TIMESTAMP_KEY = 'steinente.poker.logShowTimestamp'
 export const SCOREBOARD_A11Y_MODE_KEY = 'steinente.poker.scoreboardA11yMode'

@@ -34,10 +34,12 @@
           [settingsVisible]="settingsVisible"
           [playersVisible]="playersVisible"
           [logVisible]="logVisible"
+          [previousVisible]="previousVisible"
           [chatVisible]="chatVisible"
           (settingsChange)="panelSettingsChange.emit($event)"
           (playersChange)="panelPlayersChange.emit($event)"
           (logChange)="panelLogChange.emit($event)"
+          (previousChange)="panelPreviousChange.emit($event)"
           (chatChange)="panelChatChange.emit($event)"
         />
         <button

@@ -162,6 +162,9 @@ export class GamePageComponent {
   readonly panelLogVisibleSignal = computed(() =>
     this.session.panelLogVisible(),
   )
+  readonly panelPreviousVisibleSignal = computed(() =>
+    this.session.panelPreviousVisible(),
+  )
   readonly panelChatVisibleSignal = computed(() =>
     this.session.panelChatVisible(),
   )
@@ -297,6 +300,8 @@ export class GamePageComponent {
     this.session.setPanelPlayersVisible(visible)
   readonly setPanelLogVisibleFn = (visible: boolean) =>
     this.session.setPanelLogVisible(visible)
+  readonly setPanelPreviousVisibleFn = (visible: boolean) =>
+    this.session.setPanelPreviousVisible(visible)
   readonly setPanelChatVisibleFn = (visible: boolean) =>
     this.session.setPanelChatVisible(visible)
   readonly setLogShowTimestampFn = (visible: boolean) =>

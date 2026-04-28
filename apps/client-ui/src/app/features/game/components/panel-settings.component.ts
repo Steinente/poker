@@ -55,6 +55,15 @@ import { TPipe } from '../../../shared/pipes/t.pipe'
           <label class="row" style="margin-top: 8px;">
             <input
               type="checkbox"
+              [ngModel]="previousVisible"
+              (ngModelChange)="previousChange.emit($event)"
+            />
+            <span>{{ 'previousRoundCards' | t }}</span>
+          </label>
+
+          <label class="row" style="margin-top: 8px;">
+            <input
+              type="checkbox"
               [ngModel]="chatVisible"
               (ngModelChange)="chatChange.emit($event)"
             />
@@ -113,11 +122,13 @@ export class PanelSettingsComponent {
   @Input({ required: true }) settingsVisible = true
   @Input({ required: true }) playersVisible = true
   @Input({ required: true }) logVisible = true
+  @Input({ required: true }) previousVisible = true
   @Input({ required: true }) chatVisible = true
 
   @Output() readonly settingsChange = new EventEmitter<boolean>()
   @Output() readonly playersChange = new EventEmitter<boolean>()
   @Output() readonly logChange = new EventEmitter<boolean>()
+  @Output() readonly previousChange = new EventEmitter<boolean>()
   @Output() readonly chatChange = new EventEmitter<boolean>()
 
   isOpen = false
